@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160928105305) do
+
+ActiveRecord::Schema.define(version: 20160928080510) do
 
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -58,6 +59,7 @@ ActiveRecord::Schema.define(version: 20160928105305) do
     t.index ["school_id"], name: "index_students_on_school_id", using: :btree
   end
 
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -79,9 +81,11 @@ ActiveRecord::Schema.define(version: 20160928105305) do
     t.integer  "group_id"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["group_id"], name: "index_users_on_group_id", using: :btree
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token",
+                                                      unique: true, using: :btree
     t.index ["school_id"], name: "index_users_on_school_id", using: :btree
   end
+
 
   add_foreign_key "groups", "levels"
   add_foreign_key "groups", "schools"
@@ -90,4 +94,5 @@ ActiveRecord::Schema.define(version: 20160928105305) do
   add_foreign_key "students", "schools"
   add_foreign_key "users", "groups"
   add_foreign_key "users", "schools"
+
 end
