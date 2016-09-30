@@ -24,17 +24,17 @@ class ParentsController < ApplicationController
   end
 
   def edit
-    @parent= parent.find(params[:id])
+    @parent= Parent.find(params[:id])
     render json: @parent
   end
 
   def destroy
-    parent.find(params[:id]).destroy
+    Parent.find(params[:id]).destroy
     render json: @parent
   end
 
   def update
-    @parent = parent.find(params[:id])
+    @parent = Parent.find(params[:id])
     if @parent.update_attributes(parent_params)
      render json: @parent
 
