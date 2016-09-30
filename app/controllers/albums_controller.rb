@@ -22,7 +22,7 @@ class AlbumsController < ApplicationController
     @album = Album.new(user_params)
     if @album.save
       flash[:success] = "Album created!"
-      redirect_to '/albums'
+      redirect_to @album
     else
       render "new"
     end
@@ -35,7 +35,7 @@ class AlbumsController < ApplicationController
   def update
     @album = Album.find(params[:id])
     if @album.update_attributes(album_params)
-      redirect_to(:action => 'show', :id => @album.id)
+      redirect_to @album
     else
       render "edit"
     end
@@ -45,7 +45,7 @@ class AlbumsController < ApplicationController
     @album = Album.find(params[:id])
     @album.destroy
     flash[:success] = "Album deleted"
-    redirect_to :action => "index"
+    redirect_to albums_url
   end
 
 
