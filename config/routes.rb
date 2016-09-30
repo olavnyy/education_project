@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     devise_scope :user do
       authenticated :user do
         root 'home#index', as: :authenticated_root
+        resources :teachers, defaults: { format: 'json' }
+        resources :parents, defaults: { format: 'json' }
+        resources :students, defaults: { format: 'json' }
       end
       unauthenticated do
         root 'devise/sessions#new', as: :unauthenticated_root
