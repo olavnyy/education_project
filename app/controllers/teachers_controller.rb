@@ -50,7 +50,8 @@ class TeachersController < ApplicationController
   def teacher_params
     params.
       require(:teacher).
-      permit(:firstname, :lastname, :group_id, :email, :contact_phone).
+      permit(:first_name, :last_name, :group_id, :email,
+             :contact_phone, :password, :password_confirmation).
       merge(school_id: current_user.school_id)
   end
 
