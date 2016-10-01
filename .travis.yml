@@ -8,6 +8,7 @@ before_script:
 script:
   - bundle exec rake db:setup
   - bundle exec rspec spec
+  - cp config/databse.yml.dev config/database.yml
 
 rubocop:
   script:
