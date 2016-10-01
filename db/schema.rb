@@ -10,18 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20160928080510) do
-
-  create_table "news", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "title"
-    t.string   "description"
-    t.string   "viewable_type"
-    t.integer  "viewable_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.index ["viewable_type", "viewable_id"], name: "index_news_on_viewable_type_and_viewable_id", using: :btree
-  end
+ActiveRecord::Schema.define(version: 20161001083510) do
 
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -39,6 +28,16 @@ ActiveRecord::Schema.define(version: 20160928080510) do
     t.datetime "updated_at", null: false
     t.integer  "school_id"
     t.index ["school_id"], name: "index_levels_on_school_id", using: :btree
+  end
+
+  create_table "news", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.string   "viewable_type"
+    t.integer  "viewable_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["viewable_type", "viewable_id"], name: "index_news_on_viewable_type_and_viewable_id", using: :btree
   end
 
   create_table "parents_students", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -69,7 +68,6 @@ ActiveRecord::Schema.define(version: 20160928080510) do
     t.index ["school_id"], name: "index_students_on_school_id", using: :btree
   end
 
-
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -91,11 +89,9 @@ ActiveRecord::Schema.define(version: 20160928080510) do
     t.integer  "group_id"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["group_id"], name: "index_users_on_group_id", using: :btree
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token",
-                                                      unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
     t.index ["school_id"], name: "index_users_on_school_id", using: :btree
   end
-
 
   add_foreign_key "groups", "levels"
   add_foreign_key "groups", "schools"
@@ -104,5 +100,4 @@ ActiveRecord::Schema.define(version: 20160928080510) do
   add_foreign_key "students", "schools"
   add_foreign_key "users", "groups"
   add_foreign_key "users", "schools"
-
 end
