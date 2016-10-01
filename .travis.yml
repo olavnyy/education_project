@@ -1,6 +1,4 @@
 language: ruby
-rvm:
-  - 2.3.0
 
 before_script:
   bundle install --jobs=3 --retry=3
@@ -8,7 +6,22 @@ before_script:
 script:
   - bundle exec rake db:setup
   - bundle exec rspec spec
-  - cp config/databse.yml.dev config/database.yml
+
+rubocop:
+  script:
+    - bundle exec rubocop
+
+language: ruby
+rvm:
+  - 2.3.0
+
+before_script:
+  - bundle install --jobs=3 --retry=3
+  - cp config/database.yml.dev config/database.yml
+
+script:
+  - RAILS_ENV=test bundle exec rake db:create db:migrate
+  - bundle exec rspec spec
 
 rubocop:
   script:
