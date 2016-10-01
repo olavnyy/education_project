@@ -13,6 +13,16 @@
 
 ActiveRecord::Schema.define(version: 20160928080510) do
 
+  create_table "news", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.string   "viewable_type"
+    t.integer  "viewable_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["viewable_type", "viewable_id"], name: "index_news_on_viewable_type_and_viewable_id", using: :btree
+  end
+
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.datetime "created_at", null: false
