@@ -1,8 +1,12 @@
+# Define Teachers controller
 class TeachersController < ApplicationController
-
   def show
     @teacher = Teacher.find(params[:id])
-    render json: @teacher
+    if @teacher.nill?
+      render json: @teacher
+    else
+      render 'teachers#index'
+    end
   end
 
   def new
@@ -10,7 +14,7 @@ class TeachersController < ApplicationController
     render json: @teacher
   end
 
-   def index
+  def index
     @teacher = Teacher.all
     render json: @teacher
   end
@@ -25,7 +29,7 @@ class TeachersController < ApplicationController
   end
 
   def edit
-    @teacher= Teacher.find(params[:id])
+    @teacher = Teacher.find(params[:id])
     render json: @teacher
   end
 
@@ -37,9 +41,7 @@ class TeachersController < ApplicationController
   def update
     @teacher = Teacher.find(params[:id])
     if @teacher.update_attributes(teacher_params)
-     render json: @teacher
-
-    # Handle a successful update.
+      render json: @teacher
     else
       render 'teachers#edit'
     end
@@ -48,11 +50,10 @@ class TeachersController < ApplicationController
   private
 
   def teacher_params
-    params.
-      require(:teacher).
-      permit(:first_name, :last_name, :group_id, :email,
-             :contact_phone, :password, :password_confirmation).
-      merge(school_id: current_user.school_id)
+    params
+      .require(:teacher)
+      .permit(:first_name, :last_name, :group_id, :email,
+              :contact_phone, :password, :password_confirmation)
+      .merge(school_id: current_user.school_id)
   end
-
 end
