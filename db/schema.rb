@@ -10,6 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20160930213013) do
 
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -36,6 +37,16 @@ ActiveRecord::Schema.define(version: 20160930213013) do
     t.datetime "updated_at", null: false
     t.integer  "school_id"
     t.index ["school_id"], name: "index_levels_on_school_id", using: :btree
+  end
+
+  create_table "news", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.string   "viewable_type"
+    t.integer  "viewable_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["viewable_type", "viewable_id"], name: "index_news_on_viewable_type_and_viewable_id", using: :btree
   end
 
   create_table "parents_students", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
