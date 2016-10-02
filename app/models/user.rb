@@ -7,9 +7,9 @@ class User < ApplicationRecord
   validates :first_name, presence: true, length: {maximum: 25}
   validates :last_name, presence: true, length: {maximum: 25}
 
-  valid_phone_regex = /(\d{3}|\(\d{3}\))(.|)\d{3}(.|)\d{4}/x
+  phone_regex = /\A\+?\d{3}\s?(\(|)\d{2}(\)|)\s?\d{3}\s?\d{2}\s?\d{2}\s?\z/x
   validates :contact_phone, presence: true,
-                  format: { with: valid_phone_regex }
+                  format: { with: phone_regex }
 
   # Define type of user (for app/models/ability.rb)
   def superadmin?
