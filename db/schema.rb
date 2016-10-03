@@ -10,10 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160930170009) do
+
+ActiveRecord::Schema.define(version: 20161001094349) do
 
   create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
+    t.string   "image"
     t.string   "imageable_type"
     t.integer  "imageable_id"
     t.datetime "created_at",     null: false
@@ -31,12 +33,30 @@ ActiveRecord::Schema.define(version: 20160930170009) do
     t.index ["school_id"], name: "index_groups_on_school_id", using: :btree
   end
 
+  create_table "health_infos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "health_problem"
+    t.text     "description",    limit: 65535
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "student_id"
+  end
+
   create_table "levels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "school_id"
     t.index ["school_id"], name: "index_levels_on_school_id", using: :btree
+  end
+
+  create_table "news", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.string   "viewable_type"
+    t.integer  "viewable_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["viewable_type", "viewable_id"], name: "index_news_on_viewable_type_and_viewable_id", using: :btree
   end
 
   create_table "parents_students", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
