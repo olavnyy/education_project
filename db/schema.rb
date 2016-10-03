@@ -10,12 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20161001094349) do
+ActiveRecord::Schema.define(version: 20161001083510) do
 
   create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
-    t.string   "image"
     t.string   "imageable_type"
     t.integer  "imageable_id"
     t.datetime "created_at",     null: false
