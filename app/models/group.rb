@@ -4,4 +4,8 @@ class Group < ApplicationRecord
   has_many :students
   has_one :teacher
   has_many :albums, as: :imageable
+  has_many :news, as: :viewable
+
+  validates :name, presence: true, length: {maximum: 10}
+
 end
