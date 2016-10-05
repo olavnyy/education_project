@@ -31,7 +31,7 @@ RSpec.describe AlbumsController, type: :controller do
 
   describe "GET #new" do
     it "should be successful" do
-      get :new
+      process :new, method: :get
       expect(response).to be_success
       expect(response).to have_http_status(200)
       expect(response).to render_template "new"
