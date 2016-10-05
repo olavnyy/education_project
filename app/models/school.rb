@@ -1,11 +1,11 @@
 class School < ApplicationRecord
-  belongs_to :superadmin
   has_one :admin, dependent: :destroy
   has_many :parents, dependent: :destroy
   has_many :teachers, dependent: :destroy
   has_many :students, dependent: :destroy
   has_many :groups, dependent: :destroy
   has_many :levels, dependent: :destroy
+  has_many :albums, as: :imageable
   has_many :news, as: :viewable
 
   validates :name, presence: true, length: { maximum: 50 }
@@ -19,4 +19,5 @@ class School < ApplicationRecord
   VALID_PHONE_REGEX = /[0-9\-\+]/
   validates :contact_phone, presence: true, length: { maximum: 13 },
                             format: { with: VALID_PHONE_REGEX }
+
 end
