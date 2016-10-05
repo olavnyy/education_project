@@ -24,6 +24,6 @@ Rails.application.routes.draw do
   end
 
   get 'album/new', to: 'albums#new'
-  get '/photos/:id/edit', to: 'albums#edit'
+  get '/albums/:id/edit', to: 'albums#edit'
 
 end
