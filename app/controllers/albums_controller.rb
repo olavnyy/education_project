@@ -11,7 +11,6 @@ class AlbumsController < ApplicationController
     render json: @album
     if @album.nil?
       @albums = Album.all
-      flash.now[:alert] = "Your album was not found!"
       render json: @albums
     end
   end
@@ -23,7 +22,6 @@ class AlbumsController < ApplicationController
   def create
     @album = Album.new(album_params)
     if @album.save
-      flash[:success] = "Album created!"
       render json: @album
     else
       render "new"
@@ -47,7 +45,6 @@ class AlbumsController < ApplicationController
   def destroy
     @album = Album.find(params[:id])
     @album.destroy
-    flash[:success] = "Album deleted"
     render json: @albums
   end
 

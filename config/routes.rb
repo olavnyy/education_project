@@ -22,4 +22,8 @@ Rails.application.routes.draw do
     resources :photos do
     end
   end
+
+  get 'album/new', to: 'albums#new'
+  get '/photos/:id/edit', to: 'albums#edit'
+
 end
