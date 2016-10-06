@@ -7,7 +7,9 @@ class LevelsController < ApplicationController
   def show
     @level = Level.find(params[:id])
     if @level.nil?
-      render 'index'
+      render json: {
+        content: 'invalid show'
+      }
     else
       render json: @level
     end
