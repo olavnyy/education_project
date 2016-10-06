@@ -3,9 +3,9 @@ class TeachersController < ApplicationController
   def show
     @teacher = Teacher.find(params[:id])
     if @teacher.nill?
-      render json: @teacher
-    else
       render 'teachers#index'
+    else
+      render json: @teacher
     end
   end
 
