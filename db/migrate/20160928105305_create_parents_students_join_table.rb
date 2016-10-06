@@ -1,8 +1,8 @@
 class CreateParentsStudentsJoinTable < ActiveRecord::Migration[5.0]
   def change
-    create_join_table :users, :students, table_name: :parents_students do |t|
-      t.index :user_id
-      t.index :student_id
+    create_table :students_users, id: false do |t|
+      t.belongs_to :student, index: true
+      t.belongs_to :parent, index: true
     end
   end
 end
