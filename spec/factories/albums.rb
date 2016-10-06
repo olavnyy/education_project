@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :album do
-    title "MyString"
-    image "MyString"
+    title "Title"
+    image "image.png"
   end
 end
+
