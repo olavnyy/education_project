@@ -19,13 +19,14 @@ Album.create(title: "Horses",
             imageable_type: "Group",
             imageable_id: 1)
 
-
-
-
-
-
-
+5.times do |n|
+  FactoryGirl.create(:level)
+end
 
 5.times do |n|
   FactoryGirl.create(:group)
+end
+
+5.times do |n|
+  FactoryGirl.create(:news)
 end
