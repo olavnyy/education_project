@@ -20,5 +20,9 @@ Album.create(title: "Horses",
             imageable_id: 1)
 
 5.times do |n|
-      FactoryGirl.create(:news)
+  FactoryGirl.create(:level)
+end
+
+5.times do |n|
+  FactoryGirl.create(:news)
 end
