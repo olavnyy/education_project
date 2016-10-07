@@ -22,12 +22,14 @@ class NewsController < ApplicationController
      if @news.save
       render json: @news
      else
-       render "new"
+       render json: {
+        content: 'invalid create'
+       }
      end
    end
 
    def edit
-       @news = News.find(params[:id])
+      @news = News.find(params[:id])
    end
 
    def update
@@ -35,14 +37,18 @@ class NewsController < ApplicationController
      if @news.update_attributes(news_params)
        render json:@news
      else
-       render "edit"
+       render json: {
+        content: 'invalid create'
+       }
      end
    end
 
    def destroy
      @news = News.find(params[:id])
      @news.destroy
-     render json: @news
+     render json: {
+      content: 'deleted'
+    }
    end
 
    private
