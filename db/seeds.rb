@@ -23,4 +23,6 @@ Album.create(title: "Horses",
   FactoryGirl.create(:level)
 end
 
-
+5.times do |n|
+  FactoryGirl.create(:news)
+end

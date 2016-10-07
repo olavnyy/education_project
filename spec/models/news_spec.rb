@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe News do
-  before do
-    @news1 = News.new(title: "First News", description: "This is new text")
+  describe News do
+    before do
+      @news1 = News.new(title: "First News", description: "This is new text")
   end
 
   it { should respond_to(:title) }
