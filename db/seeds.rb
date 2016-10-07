@@ -19,6 +19,6 @@ Album.create(title: "Horses",
             imageable_type: "Group",
             imageable_id: 1)
 
-
-
-
+5.times do |n|
+      FactoryGirl.create(:news)
+end

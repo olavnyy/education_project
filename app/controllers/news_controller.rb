@@ -1,14 +1,15 @@
 class NewsController < ApplicationController
   def index
      @news = News.all
+     render json: @news
    end
 
    def show
      @news = News.find(params[:id])
+     render json: @news
      if @news.nil?
-       @news = News.all
-       flash.now[:alert] = "Your news was not found!"
-       render "index"
+       @news_all = News.all
+       render json: @news_all
      end
    end
 
@@ -19,31 +20,35 @@ class NewsController < ApplicationController
    def create
      @news = News.new(user_params)
      if @news.save
-       flash[:success] = "news created!"
-       redirect_to '/news'
+      render json: @news
      else
-       render "new"
+       render json: {
+        content: 'invalid create'
+       }
      end
    end
 
    def edit
-       @news = News.find(params[:id])
+      @news = News.find(params[:id])
    end
 
    def update
      @news = News.find(params[:id])
      if @news.update_attributes(news_params)
-       redirect_to(:action => 'show', :id => @news.id)
+       render json:@news
      else
-       render "edit"
+       render json: {
+        content: 'invalid create'
+       }
      end
    end
 
    def destroy
      @news = News.find(params[:id])
      @news.destroy
-     flash[:success] = "news deleted"
-     redirect_to :action => "index"
+     render json: {
+      content: 'deleted'
+    }
    end
 
    private
