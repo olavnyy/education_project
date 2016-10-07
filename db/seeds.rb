@@ -24,5 +24,9 @@ Album.create(title: "Horses",
 end
 
 5.times do |n|
+  FactoryGirl.create(:group)
+end
+
+5.times do |n|
   FactoryGirl.create(:news)
 end
