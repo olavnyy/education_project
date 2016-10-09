@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160928105305) do
+ActiveRecord::Schema.define(version: 20161001083510) do
+
+  create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "image"
+    t.string   "imageable_type"
+    t.integer  "imageable_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["imageable_type", "imageable_id"], name: "index_albums_on_imageable_type_and_imageable_id", using: :btree
+  end
 
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -22,6 +32,14 @@ ActiveRecord::Schema.define(version: 20160928105305) do
     t.index ["school_id"], name: "index_groups_on_school_id", using: :btree
   end
 
+  create_table "health_infos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "health_problem"
+    t.text     "description",    limit: 65535
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "student_id"
+  end
+
   create_table "levels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -30,11 +48,32 @@ ActiveRecord::Schema.define(version: 20160928105305) do
     t.index ["school_id"], name: "index_levels_on_school_id", using: :btree
   end
 
+  create_table "news", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.string   "viewable_type"
+    t.integer  "viewable_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["viewable_type", "viewable_id"], name: "index_news_on_viewable_type_and_viewable_id", using: :btree
+  end
+
   create_table "parents_students", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "user_id",    null: false
     t.integer "student_id", null: false
     t.index ["student_id"], name: "index_parents_students_on_student_id", using: :btree
     t.index ["user_id"], name: "index_parents_students_on_user_id", using: :btree
+  end
+
+  create_table "photos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "album_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.index ["album_id"], name: "index_photos_on_album_id", using: :btree
   end
 
   create_table "schools", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -86,6 +125,7 @@ ActiveRecord::Schema.define(version: 20160928105305) do
   add_foreign_key "groups", "levels"
   add_foreign_key "groups", "schools"
   add_foreign_key "levels", "schools"
+  add_foreign_key "photos", "albums"
   add_foreign_key "students", "groups"
   add_foreign_key "students", "schools"
   add_foreign_key "users", "groups"

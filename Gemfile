@@ -9,6 +9,8 @@ gem 'mysql2', '~> 0.4.4'
 gem 'puma', '~> 3.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
+gem 'active_model_serializers', '~> 0.8.3'
+gem 'rails-controller-testing'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
@@ -20,6 +22,7 @@ gem 'jbuilder', '~> 2.5'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 gem 'cancancan', '~> 1.10'
+gem 'paperclip', '~> 4.3', '>= 4.3.6'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -31,6 +34,7 @@ end
 group :test do
   gem 'selenium-webdriver', '~> 2.53', '>= 2.53.4'
   gem 'capybara', '~> 2.1'
+  gem 'database_cleaner'
 end
 
 group :development do

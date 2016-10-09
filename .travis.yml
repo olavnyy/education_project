@@ -3,10 +3,11 @@ rvm:
   - 2.3.0
 
 before_script:
-  bundle install --jobs=3 --retry=3
+  - bundle install --jobs=3 --retry=3
+  - cp config/database.yml.dev config/database.yml
 
 script:
-  - bundle exec rake db:setup
+  - RAILS_ENV=test bundle exec rake db:create db:migrate
   - bundle exec rspec spec
 
 rubocop:
