@@ -1,8 +1,12 @@
 class SchoolsController < ApplicationController
 
   def show
-    @school = School.find(school_params)
-    render json: @school
+    @school = School.find(params[:id])
+    if @school.nil?
+      render 'index'
+    else
+      render json: @school
+    end
   end
 
   def new
@@ -12,45 +16,41 @@ class SchoolsController < ApplicationController
 
    def index
     @schools = School.all
-    render json: @school
+    render json: @schools
   end
 
   def create
     @school = School.new(school_params)
     if @school.save
-      redirect_to @school
+      render json: @school
     else
-      render 'students#new'
+      render 'new'
     end
   end
 
   def edit
-    @school= School.find(school_params)
+    @school= School.find(params[:id])
     render json: @school
   end
 
   def destroy
-    School.find(school_params).destroy
+    School.find(params[:id]).destroy
     render json: @school
   end
 
   def update
-    @school = School.find(school_params)
+    @school = School.find(params[:id])
     if @school.update_attributes(school_params)
-     render json: @school
-
-    # Handle a successful update.
+      render json: @school
     else
-      render 'schools#edit'
+      render 'edit'
     end
   end
 
   private
 
   def school_params
-    params.
-      require(:school).
-      permit(:name, :email, :address, :contact_phone)
+    params.require(:school).permit(:name, :email, :address, :contact_phone)
   end
 
 end

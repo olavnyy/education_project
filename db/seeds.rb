@@ -6,3 +6,7 @@ User.create(first_name: 'Super',
             password_confirmation: 'superadmin',
             type: 'Superadmin',
             contact_phone: '+123456789012')
+
+5.times do |n|
+	FactoryGirl.create(:school)
+end
