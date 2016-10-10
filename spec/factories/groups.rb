@@ -1,5 +1,7 @@
 FactoryGirl.define do
   factory :group do
-    name "MyString"
+    sequence :name do |n|
+      "group_#{n}"
+    end
   end
 end

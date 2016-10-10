@@ -2,15 +2,16 @@ class AlbumsController < ApplicationController
 
   def index
     @albums = Album.all
+    render json: @albums
   end
 
   def show
     @album = Album.find(params[:id])
     @photos = @album.photos
+    render json: @album
     if @album.nil?
       @albums = Album.all
-      flash.now[:alert] = "Your album was not found!"
-      render "index"
+      render json: @albums
     end
   end
 
@@ -21,8 +22,7 @@ class AlbumsController < ApplicationController
   def create
     @album = Album.new(album_params)
     if @album.save
-      flash[:success] = "Album created!"
-      redirect_to @album
+      render json: @album
     else
       render "new"
     end
@@ -36,7 +36,7 @@ class AlbumsController < ApplicationController
   def update
     @album = Album.find(params[:id])
     if @album.update_attributes(album_params)
-      redirect_to @album
+      render json: @album
     else
       render "edit"
     end
@@ -45,8 +45,7 @@ class AlbumsController < ApplicationController
   def destroy
     @album = Album.find(params[:id])
     @album.destroy
-    flash[:success] = "Album deleted"
-    redirect_to albums_url
+    render json: @albums
   end
 
 
