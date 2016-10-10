@@ -30,3 +30,7 @@ end
 5.times do |n|
   FactoryGirl.create(:news)
 end
+
+5.times do |n|
+	FactoryGirl.create(:school)
+end

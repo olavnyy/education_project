@@ -1,98 +1,68 @@
-require 'spec_helper'
+require 'rails_helper'
 
-######Testing GET methods######
-
-describe "GET #show" do
-    before(:each) do
-    @school = FactoryGirl.create :school
-    end
-
- describe "GET #new" do
-    it "should be successful" do
-      get :new
-      response.should be_success
+RSpec.describe SchoolsController, type: :controller do
+  describe "GET #index" do
+    it 'index success' do
+      get :index
+      expect(response.status).to eq(200)
+      expect(response.content_type).to eq 'application/json'
     end
   end
-end
 
-describe "GET #index" do
-  it "creates an array of schools" do
-    @school = FactoryGirl.create :school
-    get :index
-    assigns(:schools).should eq(@school)
-  end
-end
-
-describe "GET #show" do
-  it "assigns the requested school to @school" do
-    @school = FactoryGirl.create :school
-    get :show, id: school
-    assigns(:school).should eq(@school)
-  end
-end
-
-######Testing POST methods######
-
-describe "POST #create" do
-  context "with valid attributes" do
-    it "creates a new school" do
-      expect{
-        post :create, school: FactoryGirl.attributes_for(:school)
-      }.to change(School,:count).by(1)
+  describe "GET #show" do
+    before do
+      @school = FactoryGirl.create(:school)
+      @try = FactoryGirl.create(:school, nil)
     end
 
-    it "redirects to the new contact" do
+    it 'show success' do
+      get :show, params: { id: 1 }
+      expect(response.status).to eq(200)
+      expect(response.content_type).to eq 'application/json'
+    end
+  end
+
+  describe "CREATE #create" do
+    it 'creates school success' do
       post :create, school: FactoryGirl.attributes_for(:school)
-      response.should redirect_to School.last
+      expect(response.status).to eq(200)
+      expect(response.content_type).to eq 'application/json'
+    end
+
+    it "creates a new school" do
+      expect {
+        post :create, school: FactoryGirl.attributes_for(:school)
+      }.to change(School, :count).by(1)
+      expect(response.status).to eq(200)
     end
   end
-end
 
-#####Testing PUT methods######
+  describe "PATCH/PUT #update" do
+    before :each do
+      @school = FactoryGirl.create(:school, name: 'SchoolLV')
+    end
 
-describe 'PUT #update' do
-  before :each do
-    @school = Factory(:school, name: "Another School", email: "another@mail.gb", address: "Oslo", contact_phone: "0987654321")
-  end
-
-  context "valid attributes" do
     it "located the requested @school" do
-      put :update, id: @school, school: FactoryGirl.attributes_for(:school)
-      assigns(:school).should eq(@school)
-    end
-
-    it "changes @school's attributes" do
-      put :update, id: @school,
-        school: FactoryGirl.attributes_for(:school, name: "Another School", email: "another@mail.gb", address: "Oslo", contact_phone: "0987654321")
-      @school.reload
-      @school.name.should eq("Another School")
-      @school.email.should eq("another@mail.gb")
-      @school.address.should eq("Oslo")
-      @school.contact_phone.should eq("0987654321")
-    end
-
-    it "redirects to the updated school" do
-      put :update, id: @school, school: FactoryGirl.attributes_for(:school)
-      response.should redirect_to @school
+      put :update, id: @school, school: FactoryGirl.attributes_for(:school, id: 100)
+      expect(response.status).to eq(200)
+      expect(response.content_type).to eq 'application/json'
     end
   end
-end
 
-######Testing DELETE methods######
+  describe 'DELETE #destroy' do
+    before :each do
+      @school = FactoryGirl.create(:school)
+    end
 
-describe 'DELETE destroy' do
-  before :each do
-    @school = FactoryGirl.create :school
-  end
+    it "deletes the school" do
+      expect{
+        delete :destroy, id: @school
+      }.to change(School,:count).by(-1)
+    end
 
-  it "deletes the school" do
-    expect{
+    it "redirects to school#index" do
       delete :destroy, id: @school
-    }.to change(School,:count).by(-1)
-  end
-
-  it "redirects to schools#index" do
-    delete :destroy, id: @school
-    response.should redirect_to schools_url
+      expect(response.status).to eq(200)
+    end
   end
 end
