@@ -122,6 +122,7 @@ GEM
       pry (>= 0.9.10)
     puma (3.6.0)
     rack (2.0.1)
+    rack-cors (0.4.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.0.1)
@@ -223,6 +224,7 @@ DEPENDENCIES
   pry (~> 0.10.4)
   pry-rails
   puma (~> 3.0)
+  rack-cors
   rails (~> 5.0.0, >= 5.0.0.1)
   rails-controller-testing
   rspec-rails (~> 3.5, >= 3.5.2)
@@ -232,4 +234,4 @@ DEPENDENCIES
   tzinfo-data
 
 BUNDLED WITH
-   1.13.1
+   1.13.2
