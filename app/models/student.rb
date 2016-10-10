@@ -1,8 +1,16 @@
+# Define Student class
 class Student < ApplicationRecord
   belongs_to :school
   belongs_to :group
-  has_and_belongs_to_many :parents, class_name: "Parent"
+  has_and_belongs_to_many :parents, class_name: 'Parent'
   has_one :health_info
 
   accepts_nested_attributes_for :health_info
+
+  validates :first_name, presence: true,
+                         length: { maximum: 15 }
+  validates :last_name, presence: true,
+                        length: { maximum: 20 }
+  validates :age, numericality: { greater_than: 2,
+                                  less_than: 10 }
 end

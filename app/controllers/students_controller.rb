@@ -1,41 +1,28 @@
 # Define Students controller
 class StudentsController < ApplicationController
+  def index
+    @students = Student.all
+    render json: @students
+  end
+
   def show
     @student = Student.find(params[:id])
-    if @student.nill?
-      render json: @student
+    if @student.nil?
+      render json: {
+        content: 'invalid show'
+      }
     else
-      render 'students#index'
+      render json: @student
     end
-  end
-
-  def new
-    @student = Student.new
-    render json: @student
-  end
-
-  def index
-    @student = Student.all
-    render json: @student
   end
 
   def create
     @student = Student.new(student_params)
     if @student.save
-      redirect_to @student
+      render json: @student
     else
-      render 'students#new'
+      render 'new'
     end
-  end
-
-  def edit
-    @student = Student.find(params[:id])
-    render json: @student
-  end
-
-  def destroy
-    Student.find(params[:id]).destroy
-    render json: @student
   end
 
   def update
@@ -43,8 +30,17 @@ class StudentsController < ApplicationController
     if @student.update_attributes(student_params)
       render json: @student
     else
-      render 'students#edit'
+      render json: {
+        content: 'invalid update'
+      }
     end
+  end
+
+  def destroy
+    Student.find(params[:id]).destroy
+    render json: {
+      content: 'deleted'
+    }
   end
 
   private
