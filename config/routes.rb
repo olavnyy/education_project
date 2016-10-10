@@ -17,10 +17,10 @@ Rails.application.routes.draw do
         root 'devise/sessions#new', as: :unauthenticated_root
       end
     end
+    
 # Routes for photoalbums
   resources :albums do
-    resources :photos do
-    end
+    resources :photos
   end
 
   get 'album/new', to: 'albums#new'

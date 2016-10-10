@@ -19,6 +19,10 @@ Album.create(title: "Horses",
             imageable_type: "Group",
             imageable_id: 1)
 
+Photo.create(image_file_name: "horse.jpg",
+            image_content_type: "image/jpeg",
+            image_file_size: 999)
+
 5.times do |n|
   FactoryGirl.create(:level)
 end
