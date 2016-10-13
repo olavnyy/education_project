@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :teachers, defaults: { format: 'json' }
   resources :parents, defaults: { format: 'json' }
   resources :students, defaults: { format: 'json' }
+  resources :admins, defaults: { format: 'json' }
 
   devise_for :users
     devise_scope :user do
@@ -17,7 +18,7 @@ Rails.application.routes.draw do
         root 'devise/sessions#new', as: :unauthenticated_root
       end
     end
-    
+
 # Routes for photoalbums
   resources :albums do
     resources :photos

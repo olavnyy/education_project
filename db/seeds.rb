@@ -1,11 +1,5 @@
 # Create Superadmin
-User.create(first_name: 'Super',
-            last_name: 'Admin',
-            email: 'sa@sa.com',
-            password: 'superadmin',
-            password_confirmation: 'superadmin',
-            type: 'Superadmin',
-            contact_phone: '+123456789012')
+FactoryGirl.create(:superadmin)
 
 Group.create(name: "a")
 
@@ -37,4 +31,6 @@ end
 
 5.times do |n|
 	FactoryGirl.create(:school)
+  FactoryGirl.create(:admin)
+  FactoryGirl.create(:student)
 end
