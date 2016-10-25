@@ -48,8 +48,7 @@ class AdminsController < ApplicationController
   def admin_params
     params
       .require(:admin)
-      .permit(:first_name, :last_name, :email,
+      .permit(:first_name, :last_name, :email, :school_id,
               :contact_phone, :password, :password_confirmation)
-      .merge(school_id: current_user.school_id)
-  end
+    end
 end

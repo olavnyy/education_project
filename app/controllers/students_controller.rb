@@ -21,7 +21,9 @@ class StudentsController < ApplicationController
     if @student.save
       render json: @student
     else
-      render 'new'
+      render json: {
+        content: 'invalid save'
+      }
     end
   end
 
@@ -48,7 +50,7 @@ class StudentsController < ApplicationController
   def student_params
     params
       .require(:student)
-      .permit(:first_name, :last_name, :group_id, :age)
-      .merge(school_id: current_user.school_id)
+      .permit(:first_name, :last_name, :group_id, :school_id, :age)
+
   end
 end
