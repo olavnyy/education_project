@@ -26,9 +26,9 @@ end
   FactoryGirl.create(:photo)
 end
 
-Photo.create(image_file_name: "horse.jpg",
-            image_content_type: "image/jpeg",
-            image_file_size: 999)
+#Photo.create(image_file_name: "horse.jpg",
+#            image_content_type: "image/jpeg",
+#            image_file_size: 999)
 
 5.times do |n|
   FactoryGirl.create(:level)
@@ -46,4 +46,9 @@ end
 	FactoryGirl.create(:school)
   FactoryGirl.create(:admin)
   FactoryGirl.create(:student)
+end
+
+3.times do |n|
+	FactoryGirl.create(:parent)
+  FactoryGirl.create(:teacher)
 end
