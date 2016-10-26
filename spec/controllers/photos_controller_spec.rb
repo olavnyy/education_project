@@ -4,7 +4,6 @@ RSpec.describe PhotosController, type: :controller do
 
   before(:each) do
     @album = FactoryGirl.create(:album)
-    @photo = FactoryGirl.create(:photo)
   end
 
   describe "GET #index" do
