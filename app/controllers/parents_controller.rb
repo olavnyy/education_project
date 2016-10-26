@@ -50,6 +50,6 @@ class ParentsController < ApplicationController
     params.
       require(:parent).
       permit(:first_name, :last_name, :student_id, :email, :contact_phone,
-             :password, :password_confirmation)
+             :password, :password_confirmation, :school_id)
   end
 end
