@@ -53,7 +53,6 @@ class TeachersController < ApplicationController
     params
       .require(:teacher)
       .permit(:first_name, :last_name, :group_id, :email,
-              :contact_phone, :password, :password_confirmation)
-      .merge(school_id: current_user.school_id)
+              :contact_phone, :password, :password_confirmation, :school_id)
   end
 end
