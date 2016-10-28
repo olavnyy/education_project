@@ -1,8 +1,14 @@
 class ApplicationController < ActionController::API
   include ActionController::RequestForgeryProtection
+  include CanCan::ControllerAdditions
+
   attr_reader :current_user
 
   #before_action :authenticate_request!
+
+  def current_ability
+     @current_ability ||= Ability.new(current_user)
+  end
 
   protected
   def authenticate_request!
