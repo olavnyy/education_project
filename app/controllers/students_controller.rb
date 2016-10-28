@@ -1,12 +1,14 @@
 # Define Students controller
 class StudentsController < ApplicationController
+  load_and_authorize_resource
+
   def index
-    @students = Student.all
+    @students = @current_user.class.students_list(@current_user)
     render json: @students
   end
 
   def show
-    @student = Student.find(params[:id])
+    @student = @current_user.class.students_list(@current_user).find(params[:id])
     if @student.nil?
       render json: {
         content: 'invalid show'
@@ -47,10 +49,11 @@ class StudentsController < ApplicationController
 
   private
 
+
+
   def student_params
     params
       .require(:student)
       .permit(:first_name, :last_name, :group_id, :school_id, :age)
-
   end
 end
