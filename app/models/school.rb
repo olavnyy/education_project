@@ -5,6 +5,7 @@ class School < ApplicationRecord
   has_many :students, dependent: :destroy
   has_many :groups, dependent: :destroy
   has_many :levels, dependent: :destroy
+  has_many :albums, dependent: :destroy
   has_many :albums, as: :imageable
   has_many :news, as: :viewable
 
