@@ -3,7 +3,7 @@ class TeachersController < ApplicationController
   def show
     @teacher = Teacher.find(params[:id])
     if @teacher.nill?
-      render 'teachers#index'
+      render 'index'
     else
       render json: @teacher
     end
@@ -15,8 +15,8 @@ class TeachersController < ApplicationController
   end
 
   def index
-    @teacher = Teacher.all
-    render json: @teacher
+    @teachers = Teacher.all
+    render json: @teachers
   end
 
   def create
@@ -24,7 +24,7 @@ class TeachersController < ApplicationController
     if @teacher.save
       redirect_to @teacher
     else
-      render 'teachers#new'
+      render 'new'
     end
   end
 
@@ -43,7 +43,7 @@ class TeachersController < ApplicationController
     if @teacher.update_attributes(teacher_params)
       render json: @teacher
     else
-      render 'teachers#edit'
+      render 'edit'
     end
   end
 
@@ -53,7 +53,6 @@ class TeachersController < ApplicationController
     params
       .require(:teacher)
       .permit(:first_name, :last_name, :group_id, :email,
-              :contact_phone, :password, :password_confirmation)
-      .merge(school_id: current_user.school_id)
+              :contact_phone, :password, :password_confirmation, :school_id)
   end
 end

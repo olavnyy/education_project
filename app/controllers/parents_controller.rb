@@ -1,7 +1,11 @@
 class ParentsController < ApplicationController
   def show
     @parent = Parent.find(params[:id])
-    render json: @parent
+    if @parent.nil?
+      render 'index'
+    else
+      render json: @parent
+    end
   end
 
   def new
@@ -19,7 +23,7 @@ class ParentsController < ApplicationController
     if @parent.save
       redirect_to @parent
     else
-      render 'parents#new'
+      render 'new'
     end
   end
 
@@ -40,7 +44,7 @@ class ParentsController < ApplicationController
 
     # Handle a successful update.
     else
-      render 'parents#edit'
+      render 'edit'
     end
   end
 
@@ -49,7 +53,7 @@ class ParentsController < ApplicationController
   def parent_params
     params.
       require(:parent).
-      permit(:first_name, :last_name, :student_id, :email, :contact_phone,
+      permit(:first_name, :last_name, :email, :contact_phone,
              :password, :password_confirmation)
   end
 end

@@ -19,6 +19,16 @@ Album.create(title: "Horses",
             imageable_type: "Group",
             imageable_id: 1)
 
+School.create(name: "School Lviv",
+            email: "lviv@ukr.com",
+            address: "Lviv 2",
+            contact_phone: "123456789")
+
+School.create(name: "School IF",
+            email: "if@ukr.com",
+            address: "IF 2",
+            contact_phone: "87438784378")
+
 5.times do |n|
   FactoryGirl.create(:level)
 end
@@ -31,6 +41,27 @@ end
   FactoryGirl.create(:news)
 end
 
+
 5.times do |n|
-	FactoryGirl.create(:school)
+    FactoryGirl.create(:student)
+end
+
+# Parent.create(first_name: "Qwer",
+#             last_name: "Turiy",
+#             email: "iddf@ukr.com",
+#             contact_phone: 7438784378,
+#             school_id: 2)
+
+# Parent.create(first_name: "Yevgeniy",
+#             last_name: "Kuriy",
+#             email: "if@ukr.com",
+#             contact_phone: 87438784378,
+#             school_id: 1)
+
+5.times do |n|
+  FactoryGirl.create(:parent)
+end
+
+5.times do |n|
+    FactoryGirl.create(:teacher)
 end
