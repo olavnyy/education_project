@@ -7,4 +7,6 @@ class Admin < User
   scope :students_list, ->(user) { Student.where(school_id: user.school_id) }
   scope :parents_list, ->(user) { Parent.where(school_id: user.school_id) }
   scope :teachers_list, ->(user) { Teacher.where(school_id: user.school_id) }
+  scope :news_list, ->(user) { News.where(viewable_type: "School", viewable_id: user.school_id) }
+
 end
