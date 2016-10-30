@@ -2,7 +2,7 @@ class SchoolsController < ApplicationController
   load_and_authorize_resource
 
   def show
-    @school = School.find(params[:id])
+    @school = @current_user.class.schools_list(@current_user).find(params[:id])
     if @school.nil?
       render 'index'
     else
@@ -10,18 +10,18 @@ class SchoolsController < ApplicationController
     end
   end
 
-  def new
-    @school = School.new
-    render json: @school
-  end
+  # def new
+  #   @school = @current_user.class.schools_list(@current_user).new(school_params)
+  #   render json: @school
+  # end
 
    def index
-    @schools = School.all
+    @schools = @current_user.class.schools_list(@current_user)
     render json: @schools
   end
 
   def create
-    @school = School.new(school_params)
+    @school = @current_user.class.schools_list(@current_user).new(school_params)
     if @school.save
       render json: @school
     else
@@ -29,18 +29,18 @@ class SchoolsController < ApplicationController
     end
   end
 
-  def edit
-    @school= School.find(params[:id])
-    render json: @school
-  end
+  # def edit
+  #   @school= @current_user.class.schools_list(@current_user).find(params[:id])
+  #   render json: @school
+  # end
 
   def destroy
-    School.find(params[:id]).destroy
+    @current_user.class.schools_list(@current_user).find(params[:id]).destroy
     render json: @school
   end
 
   def update
-    @school = School.find(params[:id])
+    @school = @current_user.class.schools_list(@current_user).find(params[:id])
     if @school.update_attributes(school_params)
       render json: @school
     else

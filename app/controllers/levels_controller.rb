@@ -1,11 +1,13 @@
 class LevelsController < ApplicationController
+  load_and_authorize_resource
+
   def index
-    @levels = Level.all
+    @levels = @current_user.class.levels_list(@current_user)
     render json: @levels
   end
 
   def show
-    @level = Level.find(params[:id])
+    @level = @current_user.class.levels_list(@current_user).find(params[:id])
     if @level.nil?
       render json: {
         content: 'invalid show'
@@ -16,7 +18,7 @@ class LevelsController < ApplicationController
   end
 
   def create
-    @level = Level.new(level_params)
+    @level = @current_user.class.levels_list(@current_user).new(level_params)
     if @level.save
       render json: @level
     else
@@ -27,7 +29,7 @@ class LevelsController < ApplicationController
   end
 
   def update
-    @level = Level.find(params[:id])
+    @level = @current_user.class.levels_list(@current_user).find(params[:id])
     if @level.update_attributes(level_params)
       render json: @level
     else
@@ -38,26 +40,26 @@ class LevelsController < ApplicationController
   end
 
   def destroy
-    Level.find(params[:id]).destroy
+    @current_user.class.levels_list(@current_user).find(params[:id]).destroy
     render json: {
       content: 'deleted'
     }
   end
 
   # This not working yet
-  def new
-    @level = Level.new
-    render json: @level
-  end
+  # def new
+  #   @level = @current_user.class.levels_list(@current_user).new
+  #   render json: @level
+  # end
 
   # This not working yet
-  def edit
-    @level = Level.find(params[:id])
-  end
+  # def edit
+  #   @level = @current_user.class.levels_list(@current_user).find(params[:id])
+  # end
 
   private
 
   def level_params
-    params.require(:level).permit(:name)
+    params.require(:level).permit(:name, :school_id)
   end
 end

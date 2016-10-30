@@ -19,7 +19,7 @@ class StudentsController < ApplicationController
   end
 
   def create
-    @student = Student.new(student_params)
+    @student = @current_user.class.students_list(@current_user).new(student_params)
     if @student.save
       render json: @student
     else
@@ -30,7 +30,7 @@ class StudentsController < ApplicationController
   end
 
   def update
-    @student = Student.find(params[:id])
+    @student = @current_user.class.students_list(@current_user).find(params[:id])
     if @student.update_attributes(student_params)
       render json: @student
     else
@@ -41,7 +41,7 @@ class StudentsController < ApplicationController
   end
 
   def destroy
-    Student.find(params[:id]).destroy
+    @current_user.class.students_list(@current_user).find(params[:id]).destroy
     render json: {
       content: 'deleted'
     }
