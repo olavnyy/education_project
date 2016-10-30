@@ -9,23 +9,27 @@ class Ability
 
     # Define abilities for Admin
     elsif user.admin?
-      can [:read, :update], School, id: user.school_id
-      can :read, Group, school_id: user.school_id
-      can :read, Level, school_id: user.school_id
-      can :manage, Student, school_id: user.school_id
-      can :read, Teacher, school_id: user.school_id
-      can :read, Parent, school_id: user.school_id
+      can [:read, :update], School
+      can :read, Group
+      can :read, Level
+      can [:read, :update], Student
+      can :read, Teacher
+      can :read, Parent
 
     # Define abilities for Teacher
     elsif user.teacher?
-      can :read, School, id: user.school_id
-      can :read, Group, id: user.group_id
-      can [:read, :update], Student, group_id: user.group_id
+      can :read, School
+      can :read, Group
+      can :read, Level
+    can [:read, :update], Student
 
     # Define abilities for Parent
     elsif user.parent?
-      can :read, School, id: user.school_id
+      can :read, School
       can :read, Student
+      can :read, Group
+      can :read, Level
+      can :read, Teacher
     end
   end
 end
