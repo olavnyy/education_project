@@ -1,55 +1,52 @@
 class ParentsController < ApplicationController
+  load_and_authorize_resource
+
   def show
-    @parent = Parent.find(params[:id])
+    @parent = @current_user.class.parents_list(@current_user).find(params[:id])
     render json: @parent
   end
 
-  def new
-    @parent = Parent.new
-    render json: @parent
-  end
-
-   def index
-    @parent = Parent.all
+  def index
+    @parent = @current_user.class.parents_list(@current_user)
     render json: @parent
   end
 
   def create
-    @parent = Parent.new(parent_params)
+    @parent = @current_user.class.parents_list(@current_user).new(parent_params)
     if @parent.save
-      redirect_to @parent
+      render json:  @parent
     else
-      render 'parents#new'
+      render json: {
+        content: 'invalid save'
+      }
     end
   end
 
-  def edit
-    @parent= Parent.find(params[:id])
-    render json: @parent
-  end
-
   def destroy
-    Parent.find(params[:id]).destroy
-    render json: @parent
+    @current_user.class.parents_list(@current_user).find(params[:id]).destroy
+    render json: {
+      content: 'deleted'
+    }
   end
 
   def update
-    @parent = Parent.find(params[:id])
+    @parent = @current_user.class.parents_list(@current_user).find(params[:id])
     if @parent.update_attributes(parent_params)
      render json: @parent
-
     # Handle a successful update.
     else
-      render 'parents#edit'
+      render json: {
+        content: 'invalid update'
+      }
     end
   end
 
   private
 
   def parent_params
-    params.
-      require(:parent).
-      permit(:first_name, :last_name, :student_id, :email, :contact_phone,
+    params
+      .require(:parent)
+      .permit(:first_name, :last_name, :student_id, :email, :contact_phone,
              :password, :password_confirmation, :school_id)
   end
 end

@@ -20,7 +20,9 @@ class UsersController < ApplicationController
     if @user.save
       render json: @user
     else
-      render 'new'
+      render json: {
+        content: 'invalid save'
+      }
     end
   end
 
