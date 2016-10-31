@@ -1,10 +1,12 @@
 class ApplicationController < ActionController::API
   include ActionController::RequestForgeryProtection
+  include CanCan::ControllerAdditions
+
   attr_reader :current_user
 
-  #before_action :authenticate_request!
+  before_action :authenticate_request!, except: [:authenticate_user]
 
-  protected
+  private
   def authenticate_request!
     unless user_id_in_token?
       render json: { errors: ['Not Authenticated'] }, status: :unauthorized
@@ -15,7 +17,6 @@ class ApplicationController < ActionController::API
     render json: { errors: ['Not Authenticated'] }, status: :unauthorized
   end
 
-  private
   def http_token
       @http_token ||= if request.headers['Authorization'].present?
         request.headers['Authorization'].split(' ').last
@@ -32,5 +33,9 @@ class ApplicationController < ActionController::API
 
   def user_not_authorized
       render status: 403
+  end
+
+  def set_user
+
   end
 end
