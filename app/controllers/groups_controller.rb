@@ -23,7 +23,7 @@ class GroupsController < ApplicationController
       render json: @group
     else
       render json: {
-        content: 'invalid show'
+        content: 'invalid create'
       }
     end
   end
