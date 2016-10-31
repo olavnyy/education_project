@@ -22,20 +22,14 @@ class Ability
 
     # Define abilities for Teacher
     elsif user.teacher?
-
-      can :read, School
-      can :read, Group
-      can :read, Level
       can :read, Student
-      can :read, News
-      can :read, Album
+      can :read, Parent
+      can [:create, :read, :update], News
+      can [:create, :read, :update], Album
 
     # Define abilities for Parent
     elsif user.parent?
-      can :read, School
       can :read, Student
-      can :read, Group
-      can :read, Level
       can :read, Teacher
       can :read, News
       can :read, Album

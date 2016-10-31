@@ -1,14 +1,11 @@
 # Define Teachers controller
 class TeachersController < ApplicationController
+  load_and_authorize_resource
+
   def show
     @teacher = @current_user.class.teachers_list(@current_user).find(params[:id])
     render json: @teacher
   end
-
-  # def new
-  #   @teacher = @current_user.class.teachers_list(@current_user).new
-  #   render json: @teacher
-  # end
 
   def index
     @teacher = @current_user.class.teachers_list(@current_user)
@@ -18,18 +15,13 @@ class TeachersController < ApplicationController
   def create
     @teacher = @current_user.class.teachers_list(@current_user).new(teacher_params)
     if @teacher.save
-      redirect_to @teacher
+      render json: @teacher
     else
       render json: {
         content: 'invalid save'
       }
     end
   end
-
-  # def edit
-  #   @teacher = @current_user.class.teachers_list(@current_user).find(params[:id])
-  #   render json: @teacher
-  # end
 
   def destroy
     @current_user.class.teachers_list(@current_user).find(params[:id]).destroy

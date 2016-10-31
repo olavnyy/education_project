@@ -6,12 +6,7 @@ class ParentsController < ApplicationController
     render json: @parent
   end
 
-  # def new
-  #   @parent = Parent.new
-  #   render json: @parent
-  # end
-  #
-   def index
+  def index
     @parent = @current_user.class.parents_list(@current_user)
     render json: @parent
   end
@@ -19,18 +14,13 @@ class ParentsController < ApplicationController
   def create
     @parent = @current_user.class.parents_list(@current_user).new(parent_params)
     if @parent.save
-      redirect_to @parent
+      render json:  @parent
     else
       render json: {
         content: 'invalid save'
       }
     end
   end
-
-  # def edit
-  #   @parent= Parent.find(params[:id])
-  #   render json: @parent
-  # end
 
   def destroy
     @current_user.class.parents_list(@current_user).find(params[:id]).destroy
