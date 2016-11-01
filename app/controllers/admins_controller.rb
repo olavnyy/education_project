@@ -1,5 +1,7 @@
 # Define Admins controller
 class AdminsController < ApplicationController
+  load_and_authorize_resource
+
   def index
     @admins = Admin.all
     render json: @admins
@@ -21,7 +23,9 @@ class AdminsController < ApplicationController
     if @admin.save
       render json: @admin
     else
-      render 'new'
+      render json: {
+        content: 'invalid create'
+      }
     end
   end
 

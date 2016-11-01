@@ -7,7 +7,7 @@ class Ability
 
     # Define abilities for Superadmin
     if user.superadmin?
-      can :manage, :all
+      can :manage, [Admin, School]
 
     # Define abilities for Admin
     elsif user.admin?
