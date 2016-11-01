@@ -1,50 +1,40 @@
 class NewsController < ApplicationController
+  load_and_authorize_resource
+
   def index
-     @news = News.all
+     @news = @current_user.class.news_list(@current_user)
      render json: @news
    end
 
-   def show
-     @news = News.find(params[:id])
+  def show
+    @news = @current_user.class.news_list(@current_user).find(params[:id])
+    render json: @news
+  end
+
+  def create
+    @news = @current_user.class.news_list(@current_user).new(news_params)
+    if @news.save
      render json: @news
-     if @news.nil?
-       @news_all = News.all
-       render json: @news_all
-     end
-   end
-
-   def new
-     @news = News.new
-   end
-
-   def create
-     @news = News.new(news_params)
-     if @news.save
-      render json: @news
-     else
-       render json: {
+    else
+      render json: {
         content: 'invalid create'
-       }
-     end
-   end
-
-   def edit
-      @news = News.find(params[:id])
-   end
+      }
+    end
+  end
 
    def update
-     @news = News.find(params[:id])
+     @news = @current_user.class.news_list(@current_user).find(params[:id])
      if @news.update_attributes(news_params)
        render json:@news
      else
        render json: {
-        content: 'invalid create'
+        content: 'invalid save'
        }
      end
    end
 
    def destroy
-     @news = News.find(params[:id])
+     @news = @current_user.class.news_list(@current_user).find(params[:id])
      @news.destroy
      render json: {
       content: 'deleted'

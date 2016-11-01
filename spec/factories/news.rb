@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :news do
-    title "MyString"
-    description "MyString"
-    viewable_type "MyString"
-    viewable_id 1
+    sequence(:title) { |n| "Title  #{n}" }
+    sequence(:description) { |n| "Description #{n}" }
+    imageable_type "School"
+    sequence(:imageable_id ) { |n| "#{n}" }
   end
 end

@@ -1,11 +1,13 @@
 class GroupsController < ApplicationController
+  load_and_authorize_resource
+
   def index
-    @groups = Group.all
+    @groups = @current_user.class.groups_list(@current_user)
     render json: @groups
   end
 
   def show
-    @group = Group.find(params[:id])
+    @group = @current_user.class.groups_list(@current_user).find(params[:id])
     if @group.nil?
       render json: {
         content: 'invalid show'
@@ -16,16 +18,18 @@ class GroupsController < ApplicationController
   end
 
   def create
-    @group = Group.new(group_params)
+    @group = @current_user.class.groups_list(@current_user).new(group_params)
     if @group.save
       render json: @group
     else
-      render 'new'
+      render json: {
+        content: 'invalid create'
+      }
     end
   end
 
   def update
-    @group = Group.find(params[:id])
+    @group = @current_user.class.groups_list(@current_user).find(params[:id])
     if @group.update_attributes(group_params)
       render json: @group
     else
@@ -36,23 +40,23 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    Group.find(params[:id]).destroy
+    @current_user.class.groups_list(@current_user).find(params[:id]).destroy
     render json: {
       content: 'deleted'
     }
   end
 
   # This not working yet
-  def new
-    @group = Group.new
-    render json: @group
-  end
+  # def new
+  #   @group = @current_user.class.groups_list(@current_user).new
+  #   render json: @group
+  # end
 
   # This not working yet
-  def edit
-    @group = Group.find(params[:id])
-    render json: @group
-  end
+  # def edit
+  #   @group = @current_user.class.groups_list(@current_user).find(params[:id])
+  #   render json: @group
+  # end
 
   private
 

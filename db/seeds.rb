@@ -46,7 +46,6 @@ end
 	FactoryGirl.create(:school)
   FactoryGirl.create(:admin)
   FactoryGirl.create(:student)
-  FactoryGirl.create(:health_info)
 end
 
 3.times do |n|
