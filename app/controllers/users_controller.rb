@@ -20,7 +20,9 @@ class UsersController < ApplicationController
     if @user.save
       render json: @user
     else
-      render 'new'
+      render json: {
+        content: 'invalid create'
+      }
     end
   end
 
@@ -47,6 +49,7 @@ class UsersController < ApplicationController
   def user_params
     params
       .require(:user)
-      .permit(:first_name, :last_name, :email, :contact_phone, :password, :password_confirmation, :avatar)
+      .permit(:first_name, :last_name, :email, :contact_phone, :password,
+              :password_confirmation, :avatar, :type)
   end
 end

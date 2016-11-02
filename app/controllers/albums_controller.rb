@@ -1,49 +1,52 @@
 class AlbumsController < ApplicationController
-
   def index
-    @albums = Album.all
+    @albums = @current_user.class.albums_list(@current_user)
     render json: @albums
   end
 
   def show
-    @album = Album.find(params[:id])
+    @album = @current_user.class.albums_list(@current_user).find(params[:id])
     @photos = @album.photos
     render json: @album
     if @album.nil?
-      @albums = Album.all
+      @albums = @current_user.class.albums_list(@current_user)
       render json: @albums
     end
   end
 
   def new
-    @album = Album.new
+    @album = @current_user.class.albums_list(@current_user).new
   end
 
   def create
-    @album = Album.new(album_params)
+    @album = @current_user.class.albums_list(@current_user).new(album_params)
     if @album.save
       render json: @album
     else
-      render "new"
+      render json: {
+        content: 'invalid create'
+      }
     end
   end
 
   def edit
-      @album = Album.find(params[:id])
+      @album = @current_user.class.albums_list(@current_user).find(params[:id])
       @photos = @album.photos
   end
 
   def update
-    @album = Album.find(params[:id])
+    @album = @current_user.class.albums_list(@current_user).find(params[:id])
     if @album.update_attributes(album_params)
       render json: @album
     else
-      render "edit"
+      render json: {
+        content: 'invalid update'
+      }
     end
   end
 
   def destroy
-    @album = Album.find(params[:id])
+    @album = @current_user.class.albums_list(@current_user).find(params[:id])
     @album.destroy
     render json: @albums
   end

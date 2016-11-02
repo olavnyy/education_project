@@ -1,46 +1,51 @@
 class ParentsController < ApplicationController
   def show
-    @parent = Parent.find(params[:id])
+    @parent = @current_user.class.parents_list(@current_user).find(params[:id])
     render json: @parent
   end
 
   def new
-    @parent = Parent.new
+    @parent = @current_user.class.parents_list(@current_user)
     render json: @parent
   end
 
    def index
-    @parent = Parent.all
+    @parent = @current_user.class.parents_list(@current_user)
     render json: @parent
   end
 
   def create
-    @parent = Parent.new(parent_params)
+    @parent = @current_user.class.parents_list(@current_user).new(parent_params)
     if @parent.save
       redirect_to @parent
     else
-      render 'parents#new'
+      render json: {
+        content: 'invalid create'
+      }
     end
   end
 
   def edit
-    @parent= Parent.find(params[:id])
+    @parent= @current_user.class.parents_list(@current_user).find(params[:id])
     render json: @parent
   end
 
   def destroy
-    Parent.find(params[:id]).destroy
-    render json: @parent
+    @current_user.class.parents_list(@current_user).find(params[:id]).destroy
+    render json: {
+      content: 'deleted'
+    }
   end
 
   def update
-    @parent = Parent.find(params[:id])
+    @parent = @current_user.class.parents_list(@current_user).find(params[:id])
     if @parent.update_attributes(parent_params)
      render json: @parent
-
     # Handle a successful update.
     else
-      render 'parents#edit'
+      render json: {
+        content: 'invalid update'
+      }
     end
   end
 
