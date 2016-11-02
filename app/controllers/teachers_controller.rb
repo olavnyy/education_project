@@ -1,5 +1,7 @@
 # Define Teachers controller
 class TeachersController < ApplicationController
+  load_and_authorize_resource
+
   def show
     @teacher = @current_user.class.teachers_list(@current_user).find(params[:id])
     render json: @teacher

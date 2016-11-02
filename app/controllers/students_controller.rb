@@ -1,5 +1,7 @@
 # Define Students controller
 class StudentsController < ApplicationController
+  load_and_authorize_resource
+
   def index
     @students = @current_user.class.students_list(@current_user)
     render json: @students
@@ -50,7 +52,7 @@ class StudentsController < ApplicationController
   def student_params
     params
       .require(:student)
-      .permit(:first_name, :last_name, :group_id, :school_id, :age)
+      .permit(:id, :first_name, :last_name, :group_id, :school_id, :age)
 
   end
 end

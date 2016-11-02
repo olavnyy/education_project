@@ -1,4 +1,6 @@
 class ParentsController < ApplicationController
+  load_and_authorize_resource
+
   def show
     @parent = @current_user.class.parents_list(@current_user).find(params[:id])
     render json: @parent

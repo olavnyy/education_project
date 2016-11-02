@@ -2,11 +2,9 @@ class ApplicationController < ActionController::API
   include ActionController::RequestForgeryProtection
   include CanCan::ControllerAdditions
 
-  check_authorization
-
   attr_reader :current_user
 
-  #before_action :authenticate_request!
+  before_action :authenticate_request!, except: [:authenticate_user]
 
   private
   def authenticate_request!

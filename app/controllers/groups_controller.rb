@@ -1,4 +1,6 @@
 class GroupsController < ApplicationController
+  load_and_authorize_resource
+
   def index
     @groups =  @current_user.class.groups_list(@current_user)
     render json: @groups

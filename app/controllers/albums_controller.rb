@@ -1,4 +1,6 @@
 class AlbumsController < ApplicationController
+  load_and_authorize_resource
+
   def index
     @albums = @current_user.class.albums_list(@current_user)
     render json: @albums

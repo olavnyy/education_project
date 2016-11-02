@@ -1,4 +1,5 @@
 class SchoolsController < ApplicationController
+  load_and_authorize_resource
 
   def show
     @school = @current_user.class.schools_list(@current_user).find(params[:id])

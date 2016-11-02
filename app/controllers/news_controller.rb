@@ -1,4 +1,6 @@
 class NewsController < ApplicationController
+  load_and_authorize_resource
+
   def index
      @news = @current_user.class.news_list(@current_user)
      render json: @news
