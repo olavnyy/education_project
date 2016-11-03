@@ -15,7 +15,4 @@ class Student < ApplicationRecord
                         length: { maximum: 20 }
   validates :age, numericality: { greater_than: 2,
                                   less_than: 10 }
-
-
-
 end
