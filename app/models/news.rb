@@ -1,5 +1,5 @@
 class News < ApplicationRecord
-  belongs_to :viewable, polymorphic: true
+  belongs_to :imageable, polymorphic: true
 
   VALID_TITLE_REGEX = /[\w\s\.][^\d]/i # any digit  is not permitted
   VALID_CONTENT_REGEX = /[^~`!@#$%^&*()_-]/i # any symbol  is not permitted

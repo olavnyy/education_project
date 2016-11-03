@@ -1,8 +1,6 @@
 # Create Superadmin
 FactoryGirl.create(:superadmin)
 
-Group.create(name: "a")
-
 Album.create(title: "Dogs",
             image: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQSpyafEqJwu7iXv3deAkDbyZ-wklcQlAxGxei-Z8kWKEjeDvOVhA",
             imageable_type: "Group",
@@ -32,17 +30,8 @@ end
 
 5.times do |n|
   FactoryGirl.create(:level)
-end
-
-5.times do |n|
   FactoryGirl.create(:group)
-end
-
-5.times do |n|
   FactoryGirl.create(:news)
-end
-
-5.times do |n|
 	FactoryGirl.create(:school)
   FactoryGirl.create(:admin)
   FactoryGirl.create(:student)
