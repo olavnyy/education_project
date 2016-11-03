@@ -1,0 +1,11 @@
+development:
+  access_key_id: AKIAJAOPVG2YVDOB7YNQ
+  secret_access_key: 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
+
+production:
+  access_key_id: AKIAJAOPVG2YVDOB7YNQ
+  secret_access_key: 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
+
+test:
+  access_key_id: AKIAJAOPVG2YVDOB7YNQ
+  secret_access_key: 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
