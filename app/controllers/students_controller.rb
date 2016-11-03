@@ -20,6 +20,7 @@ class StudentsController < ApplicationController
 
   def create
     @student = @current_user.class.students_list(@current_user).new(student_params)
+    @student.avatar = decode_base64_image(params[:avatar]) if params[:avatar]
     if @student.save
       render json: @student
     else
@@ -31,6 +32,7 @@ class StudentsController < ApplicationController
 
   def update
     @student = @current_user.class.students_list(@current_user).find(params[:id])
+    @student.avatar = decode_base64_image(params[:student][:avatar]) if params[:student][:avatar]
     if @student.update_attributes(student_params)
       render json: @student
     else
@@ -52,7 +54,7 @@ class StudentsController < ApplicationController
   def student_params
     params
       .require(:student)
-      .permit(:id, :first_name, :last_name, :group_id, :school_id, :age)
+      .permit(:id, :first_name, :last_name, :group_id, :school_id, :age, :avatar)
 
   end
 end

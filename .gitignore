@@ -9,6 +9,7 @@
 
 # Ignore configs
 config/database.yml
+config/aws.yml
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -18,3 +19,6 @@ config/database.yml
 
 # Ignore Byebug command history file.
 .byebug_history
+
+# Ignore application configuration
+/config/application.yml
