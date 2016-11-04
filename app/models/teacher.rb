@@ -11,10 +11,8 @@ class Teacher < User
                                                  group_id: user.group_id)}
   scope :albums_list, ->(user) { Album.where(QUERY, school_id: user.school_id,
                                                     group_id: user.group_id)}
-  scope :journal_list, ->(user) { Journal.where(group_id: user.group_id) }
-
-  scope :attendance_list, ->(user) { Attendance.where() }
-
+  scope :journal_list, ->(user) { user.group.journal }
+  scope :attendance_list, ->(user) {  user.group.journal.attendances }
   QUERY = "(imageable_type = 'School' AND imageable_id = :school_id)
           OR (imageable_type = 'Level' AND imageable_id = :teacher_level_id)
           OR (imageable_type = 'Group' AND imageable_id = :group_id)"
