@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161104154714) do
+ActiveRecord::Schema.define(version: 20161104184351) do
 
   create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
@@ -88,6 +88,15 @@ ActiveRecord::Schema.define(version: 20161104154714) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.index ["album_id"], name: "index_photos_on_album_id", using: :btree
+  end
+
+  create_table "report_times", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.time     "start"
+    t.time     "end"
+    t.integer  "attendance_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["attendance_id"], name: "index_report_times_on_attendance_id", using: :btree
   end
 
   create_table "schools", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

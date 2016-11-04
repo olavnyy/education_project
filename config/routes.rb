@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   resources :parents, defaults: { format: 'json' }
   resources :students, defaults: { format: 'json' }
   resources :admins, defaults: { format: 'json' }
+  resources :journals, defaults: { format: 'json' }
+  resources :attendances, defaults: { format: 'json' }
+
 
 # Routes for photoalbums
   resources :albums do
