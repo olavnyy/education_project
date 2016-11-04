@@ -1,12 +1,13 @@
 class AttendancesController < ApplicationController
+  load_and_authorize_resource
 
   def index
-    @attendances =  @current_user.class.attendance_list(@current_user)
+    @attendances =  @current_user.class.attendances_list(@current_user)
     render json: @attendances
   end
 
   def show
-    @attendance =  @current_user.class.attendance_list(@current_user).find(params[:id])
+    @attendance =  @current_user.class.attendances_list(@current_user).find(params[:id])
     if @attendance.nil?
       render json: {
           content: 'invalid show'
@@ -17,7 +18,7 @@ class AttendancesController < ApplicationController
   end
 
   def create
-    @attendance =  @current_user.class.attendance_list(@current_user).new(attendance_params)
+    @attendance =  @current_user.class.attendances_list(@current_user).new(attendance_params)
     if @attendance.save
       render json: @attendance
     else
@@ -28,7 +29,7 @@ class AttendancesController < ApplicationController
   end
 
   def update
-    @attendance =  @current_user.class.attendance_list(@current_user).find(params[:id])
+    @attendance =  @current_user.class.attendances_list(@current_user).find(params[:id])
     if @attendance.update_attributes(attendance_params)
       render json: @attendance
     else
@@ -39,25 +40,25 @@ class AttendancesController < ApplicationController
   end
 
   def destroy
-    @current_user.class.attendance_list(@current_user).find(params[:id]).destroy
+    @current_user.class.attendances_list(@current_user).find(params[:id]).destroy
     render json: {
         content: 'deleted'
     }
   end
 
   def new
-    @attendance =  @current_user.class.attendance_list(@current_user).new
+    @attendance =  @current_user.class.attendances_list(@current_user).new
     render json: @attendance
   end
 
   def edit
-    @attendance =  @current_user.class.attendance_list(@current_user).find(params[:id])
+    @attendance =  @current_user.class.attendances_list(@current_user).find(params[:id])
     render json: @attendance
   end
 
   private
 
   def attendance_params
-    params.require(:attendance).permit(:time, )
+    params.require(:attendance).permit(:time, :present, :start, :end)
   end
 end

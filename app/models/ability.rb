@@ -19,6 +19,7 @@ class Ability
     elsif user.teacher?
       can :read, [Student, Parent, HealthInfo]
       can [:create, :read, :update], [News, Album]
+      can :crud, [Attendance, Journal, ReportTime]
 
     # Define abilities for Parent
     elsif user.parent?

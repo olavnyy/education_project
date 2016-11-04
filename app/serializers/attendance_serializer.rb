@@ -1,5 +1,3 @@
 class AttendanceSerializer < ActiveModel::Serializer
-  attributes :id, :time, :present?
-  belongs_to :journal
-  belongs_to :student
+  attributes :id, :time, :present
 end

@@ -1,4 +1,5 @@
 class JournalsController < ApplicationController
+  load_and_authorize_resource
 
   def index
     @journals =  @current_user.class.journal_list(@current_user)
