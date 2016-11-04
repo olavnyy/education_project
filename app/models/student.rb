@@ -9,6 +9,8 @@ class Student < ApplicationRecord
 
   accepts_nested_attributes_for :health_info
 
+  has_many :attendances, dependent: :destroy
+
   validates :first_name, presence: true,
                          length: { maximum: 15 }
   validates :last_name, presence: true,
