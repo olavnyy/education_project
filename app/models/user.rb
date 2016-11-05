@@ -11,7 +11,7 @@ class User < ApplicationRecord
   validates :contact_phone, presence: true,
                   format: { with: phone_regex }
 
-  has_attached_file :avatar, styles: { medium: "200x200>", thumb: "70x70>" }, default_url: "http://grdevday.org/wp-content/uploads/2016/02/missing.png"
+  has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "https://raw.github.com/goggin13/curails-mg343/master/app/assets/images/medium/missing.png"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
   # Define type of user (for app/models/ability.rb)
   def superadmin?
