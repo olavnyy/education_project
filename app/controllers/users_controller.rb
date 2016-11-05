@@ -28,7 +28,6 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    @user.avatar = decode_base64_image(params[:avatar]) if params[:avatar]
     if @user.update_attributes(user_params)
       render json: @user
     else
