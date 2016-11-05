@@ -46,16 +46,6 @@ class AttendancesController < ApplicationController
     }
   end
 
-  def new
-    @attendance =  @current_user.class.attendances_list(@current_user).new
-    render json: @attendance
-  end
-
-  def edit
-    @attendance =  @current_user.class.attendances_list(@current_user).find(params[:id])
-    render json: @attendance
-  end
-
   private
 
   def attendance_params

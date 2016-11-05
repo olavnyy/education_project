@@ -46,16 +46,6 @@ class JournalsController < ApplicationController
     }
   end
 
-  def new
-    @journal =  @current_user.class.journal_list(@current_user).new
-    render json: @journal
-  end
-
-  def edit
-    @journal =  @current_user.class.journal_list(@current_user).find(params[:id])
-    render json: @journal
-  end
-
   private
 
   def journal_params

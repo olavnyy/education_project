@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :admins, defaults: { format: 'json' }
   resources :journals, defaults: { format: 'json' }
   resources :attendances, defaults: { format: 'json' }
-
+  resources :report_times, defaults: { format: 'json' }
 
 # Routes for photoalbums
   resources :albums do
