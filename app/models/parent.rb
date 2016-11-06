@@ -22,10 +22,10 @@ class Parent < User
 
   private
   def self.students_level_ids(user)
-    user.students.map(&:group).map(&:level_id)
+    user.students.map(&:group).pluck(:level_id)
   end
 
   def self.students_group_ids(user)
-    user.students.map(&:group_id)
+    user.students.pluck(:group_id)
   end
 end
