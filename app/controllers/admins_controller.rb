@@ -19,11 +19,14 @@ class AdminsController < ApplicationController
   end
 
   def create
-    @admin = Admin.new(admin_params)
+    @admin = Admin.create(admin_params)
+binding.pry
     if @admin.save
       render json: @admin
     else
-      render 'new'
+      render json: {
+        content: 'invalid create'
+      }
     end
   end
 
@@ -46,11 +49,8 @@ class AdminsController < ApplicationController
   end
 
   private
-
   def admin_params
-    params
-      .require(:admin)
-      .permit(:first_name, :last_name, :email, :school_id,
-              :contact_phone, :password, :password_confirmation)
-    end
+    params.require(:admin).permit(:first_name, :last_name, :email, :school_id,
+                                  :contact_phone, :password, :password_confirmation)
+  end
 end
