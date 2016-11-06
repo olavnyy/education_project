@@ -1,4 +1,16 @@
 Rails.application.configure do
+  #Settings for Amazon S3 and paperclip
+  config.paperclip_defaults = {
+  storage: :s3,
+  s3_host_name:'s3-us-west-2.amazonaws.com',
+  s3_credentials: {
+    bucket: 'lv-197',
+    s3_region: 'us-west-2',
+    access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+    secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+  }
+}
+
   # Settings specified here will take precedence over those in config/application.rb.
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   # In the development environment your application's code is reloaded on
