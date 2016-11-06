@@ -9,8 +9,8 @@
 
 # Ignore configs
 config/database.yml
-config/aws.yml
-
+.idea
+npm-debug.log
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
