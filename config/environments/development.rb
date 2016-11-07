@@ -45,5 +45,8 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
   # Set Action Cable server url for consumer connection
-  config.action_cable.url = 'ws://localhost:28080'
+  config.action_cable.url = "ws://localhost:3000/cable"
+  config.action_cable.allowed_request_origins = ['http://localhost:1111']
+
 end
+Rails.application.config.action_cable.allowed_request_origins = ['http://localhost:1111']

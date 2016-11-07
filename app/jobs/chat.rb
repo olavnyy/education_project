@@ -1,0 +1,2 @@
+class ChatJob < ApplicationJob
+end
