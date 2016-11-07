@@ -22,3 +22,7 @@ npm-debug.log
 
 # Ignore application configuration
 /config/application.yml
+
+/config/initializers/cors.rb
+/config/environments/development.rb
+/config/cable.yml
