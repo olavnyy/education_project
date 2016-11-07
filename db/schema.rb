@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20161104104614) do
+=======
+ActiveRecord::Schema.define(version: 20161104223534) do
+>>>>>>> development
 
   create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
@@ -19,7 +23,9 @@ ActiveRecord::Schema.define(version: 20161104104614) do
     t.integer  "imageable_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.integer  "school_id"
     t.index ["imageable_type", "imageable_id"], name: "index_albums_on_imageable_type_and_imageable_id", using: :btree
+    t.index ["school_id"], name: "index_albums_on_school_id", using: :btree
   end
 
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -50,12 +56,13 @@ ActiveRecord::Schema.define(version: 20161104104614) do
 
   create_table "news", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
-    t.string   "description"
-    t.string   "viewable_type"
-    t.integer  "viewable_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.index ["viewable_type", "viewable_id"], name: "index_news_on_viewable_type_and_viewable_id", using: :btree
+    t.text     "description",    limit: 65535
+    t.string   "imageable_type"
+    t.integer  "imageable_id"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "image"
+    t.index ["imageable_type", "imageable_id"], name: "index_news_on_imageable_type_and_imageable_id", using: :btree
   end
 
   create_table "photos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -144,6 +151,7 @@ ActiveRecord::Schema.define(version: 20161104104614) do
     t.index ["school_id"], name: "index_users_on_school_id", using: :btree
   end
 
+  add_foreign_key "albums", "schools"
   add_foreign_key "groups", "levels"
   add_foreign_key "groups", "schools"
   add_foreign_key "levels", "schools"

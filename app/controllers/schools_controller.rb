@@ -1,7 +1,8 @@
 class SchoolsController < ApplicationController
+  load_and_authorize_resource
 
   def show
-    @school = School.find(params[:id])
+    @school = @current_user.class.schools_list(@current_user).find(params[:id])
     if @school.nil?
       render 'index'
     else
@@ -10,48 +11,48 @@ class SchoolsController < ApplicationController
   end
 
   def new
-    @school = School.new
+    @school = @current_user.class.schools_list(@current_user).new
     render json: @school
   end
 
-  def index
-    @schools = School.all
+   def index
+    @schools = @current_user.class.schools_list(@current_user)
     render json: @schools
   end
 
-##########################Mailer
-
   def create
-    @school = School.new(school_params)
-      if @school.save
+    @school = @current_user.class.schools_list(@current_user).new(school_params)
+    if @school.save
         # Tell the SchoolMailer to send a welcome email after save
         SchoolMailer.school_email(@school).deliver_now
         render json: @school
-      else
+    else
         render json: {
         content: 'invalid save'
         }
-      end
+    end
   end
 
-
-
   def edit
-    @school= School.find(params[:id])
+    @school= @current_user.class.schools_list(@current_user).find(params[:id])
     render json: @school
   end
 
   def destroy
-    School.find(params[:id]).destroy
-    render json: @school
+    @current_user.class.schools_list(@current_user).find(params[:id]).destroy
+    render json: {
+      content: 'deleted'
+    }
   end
 
   def update
-    @school = School.find(params[:id])
+    @school = @current_user.class.schools_list(@current_user).find(params[:id])
     if @school.update_attributes(school_params)
       render json: @school
     else
-      render 'edit'
+      render json: {
+       content: 'invalid update'
+      }
     end
   end
 
@@ -62,5 +63,3 @@ class SchoolsController < ApplicationController
   end
 
 end
-
-

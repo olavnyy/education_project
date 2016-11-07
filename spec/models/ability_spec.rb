@@ -7,9 +7,14 @@ RSpec.describe User, type: :model do
       before do
         @superadmin = User.new(type: 'Superadmin')
         @ability = Ability.new(@superadmin)
+        @admin = User.new(type: 'Admin')
+        @school = School.new
       end
-      it 'can manage all' do
-        expect(@ability).to be_able_to(:manage, :all)
+      it 'can manage School' do
+        expect(@ability).to be_able_to(:manage, @school)
+      end
+      it 'can manage Admin' do
+        expect(@ability).to be_able_to(:manage, @admin)
       end
     end
 
@@ -27,6 +32,10 @@ RSpec.describe User, type: :model do
 
       it 'can read School which has him' do
         expect(@ability).to be_able_to(:read, @school)
+      end
+
+      it 'can update School which has him' do
+        expect(@ability).to be_able_to(:update, @school)
       end
 
       it 'can crud Group which belongs to him' do
@@ -52,23 +61,18 @@ RSpec.describe User, type: :model do
 
     describe 'as Teacher' do
       before(:all) do
-        @teacher = User.new(type: 'Teacher', school_id: '1', group_id: '2')
+        @teacher = User.new(type: 'Teacher')
         @ability = Ability.new(@teacher)
-        @school = School.new(id: @teacher.school_id)
-        @group = Group.new(id: @teacher.group_id, level_id: '3')
-        @student = Student.new(group_id: @teacher.group_id)
-      end
-
-      it 'can read School which has him' do
-        expect(@ability).to be_able_to(:read, @school)
-      end
-
-      it 'can read Group which belongs to him' do
-        expect(@ability).to be_able_to(:read, @group)
+        @student = Student.new(group_id: @teacher.group_id, school_id: @teacher.school_id)
+        @parent = @student.parents.new
       end
 
       it 'can read Student which belongs to him' do
         expect(@ability).to be_able_to(:read, @student)
+      end
+
+      it 'can read Parent which student belongs to him' do
+        expect(@ability).to be_able_to(:read, @parent)
       end
     end
 
@@ -76,11 +80,11 @@ RSpec.describe User, type: :model do
       before(:all) do
         @parent = User.new(type: 'Parent', school_id: '1')
         @ability = Ability.new(@parent)
-        @school = School.new(id: @parent.school_id)
-      end
+        @student = @parent.students.new
+    end
 
-      it 'can read School which has him' do
-        expect(@ability).to be_able_to(:read, @school)
+      it 'can read Student which belongs to him' do
+        expect(@ability).to be_able_to(:read, @student)
       end
     end
   end

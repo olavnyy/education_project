@@ -26,7 +26,10 @@ gem 'rack-cors'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 gem 'cancancan', '~> 1.10'
-gem 'paperclip', '~> 4.3', '>= 4.3.6'
+gem "paperclip", "~> 5.0.0"
+gem 'aws-sdk', '~> 2'
+gem 'mini_magick', '~> 4.5', '>= 4.5.1'
+gem "figaro"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

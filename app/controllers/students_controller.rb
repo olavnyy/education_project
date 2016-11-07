@@ -1,12 +1,14 @@
 # Define Students controller
 class StudentsController < ApplicationController
+  load_and_authorize_resource
+
   def index
-    @students = Student.all
+    @students = @current_user.class.students_list(@current_user)
     render json: @students
   end
 
   def show
-    @student = Student.find(params[:id])
+    @student = @current_user.class.students_list(@current_user).find(params[:id])
     if @student.nil?
       render json: {
         content: 'invalid show'
@@ -17,18 +19,20 @@ class StudentsController < ApplicationController
   end
 
   def create
-    @student = Student.new(student_params)
+    @student = @current_user.class.students_list(@current_user).new(student_params)
+    @student.avatar = decode_base64_image(params[:avatar]) if params[:avatar]
     if @student.save
       render json: @student
     else
       render json: {
-        content: 'invalid save'
+        content: 'invalid create'
       }
     end
   end
 
   def update
-    @student = Student.find(params[:id])
+    @student = @current_user.class.students_list(@current_user).find(params[:id])
+    @student.avatar = decode_base64_image(params[:student][:avatar]) if params[:student][:avatar]
     if @student.update_attributes(student_params)
       render json: @student
     else
@@ -39,7 +43,7 @@ class StudentsController < ApplicationController
   end
 
   def destroy
-    Student.find(params[:id]).destroy
+    @current_user.class.students_list(@current_user).find(params[:id]).destroy
     render json: {
       content: 'deleted'
     }
@@ -50,11 +54,7 @@ class StudentsController < ApplicationController
   def student_params
     params
       .require(:student)
-<<<<<<< HEAD
-      .permit(:first_name, :last_name, :group_id, :age, :school_id)
-=======
-      .permit(:first_name, :last_name, :group_id, :school_id, :age)
+      .permit(:id, :first_name, :last_name, :group_id, :school_id, :age, :avatar)
 
->>>>>>> aaa75f16c10bea2e0b4453349fc34840eb9a2e6b
   end
 end

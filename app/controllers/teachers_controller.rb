@@ -1,49 +1,43 @@
 # Define Teachers controller
 class TeachersController < ApplicationController
-  def show
-    @teacher = Teacher.find(params[:id])
-    if @teacher.nill?
-      render 'index'
-    else
-      render json: @teacher
-    end
-  end
+  load_and_authorize_resource
 
-  def new
-    @teacher = Teacher.new
+  def show
+    @teacher = @current_user.class.teachers_list(@current_user).find(params[:id])
     render json: @teacher
   end
 
   def index
-    @teachers = Teacher.all
-    render json: @teachers
+    @teacher = @current_user.class.teachers_list(@current_user)
+    render json: @teacher
   end
 
   def create
-    @teacher = Teacher.new(teacher_params)
+    @teacher = @current_user.class.teachers_list(@current_user).new(teacher_params)
     if @teacher.save
       redirect_to @teacher
     else
-      render 'new'
+      render json: {
+        content: 'invalid create'
+      }
     end
   end
 
-  def edit
-    @teacher = Teacher.find(params[:id])
-    render json: @teacher
-  end
-
   def destroy
-    Teacher.find(params[:id]).destroy
-    render json: @teacher
+    @current_user.class.teachers_list(@current_user).find(params[:id]).destroy
+    render json: {
+      content: 'deleted'
+    }
   end
 
   def update
-    @teacher = Teacher.find(params[:id])
+    @teacher = @current_user.class.teachers_list(@current_user).find(params[:id])
     if @teacher.update_attributes(teacher_params)
       render json: @teacher
     else
-      render 'edit'
+      render json: {
+        content: 'invalid update'
+      }
     end
   end
 
