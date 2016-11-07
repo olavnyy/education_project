@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  get 'requests/create'
+
+  post 'auth_user' => 'authentication#authenticate_user'
+  devise_for :users
+  resources :users, only: [:show,:index,:update,:destroy]
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :schools, defaults: { format: 'json' }
@@ -7,20 +12,11 @@ Rails.application.routes.draw do
   resources :teachers, defaults: { format: 'json' }
   resources :parents, defaults: { format: 'json' }
   resources :students, defaults: { format: 'json' }
-
-  devise_for :users
-    devise_scope :user do
-      authenticated :user do
-        root 'home#index', as: :authenticated_root
-      end
-      unauthenticated do
-        root 'devise/sessions#new', as: :unauthenticated_root
-      end
-    end
+  resources :admins, defaults: { format: 'json' }
+  resources :requests, defaults: { format: 'json' }
 # Routes for photoalbums
   resources :albums do
-    resources :photos do
-    end
+    resources :photos
   end
 
   get 'album/new', to: 'albums#new'

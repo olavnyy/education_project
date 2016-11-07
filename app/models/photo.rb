@@ -2,10 +2,10 @@
 class Photo < ApplicationRecord
     belongs_to :album
     has_attached_file :image, styles: { large: '600x600>', medium: '300x300>', thumb: '100x100>' },
-                              default_url: '/images/:style/missing.png'
+                              path: ":rails_root/public/images/:id/:filename",
+                              url: "/images/:id/:filename"
     validates_attachment :image, presence: true,
-                                 content_type: { content_type: 'image/jpg' },
-                                 size: { in: 0..5000.kilobytes },
+                                 size: { in: 0..2000.kilobytes },
                                  content_type: { content_type: /^image\/(png|gif|jpeg|jpg)/ },
                                  message: "Only (png|gif|jpeg|jpg) images are allowed and the size cannot exceed 5Mb"
 

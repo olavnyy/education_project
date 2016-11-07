@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161001083510) do
+ActiveRecord::Schema.define(version: 20161104104614) do
 
   create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
@@ -69,6 +69,20 @@ ActiveRecord::Schema.define(version: 20161001083510) do
     t.index ["album_id"], name: "index_photos_on_album_id", using: :btree
   end
 
+  create_table "requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "address"
+    t.string   "email"
+    t.string   "contact_phone"
+    t.string   "admin_fname"
+    t.string   "admin_lname"
+    t.string   "admin_email"
+    t.string   "admin_contact_phone"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.text     "additionalinfo",      limit: 65535
+  end
+
   create_table "schools", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "email"
@@ -82,10 +96,14 @@ ActiveRecord::Schema.define(version: 20161001083510) do
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "age"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.integer  "school_id"
     t.integer  "group_id"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
     t.index ["group_id"], name: "index_students_on_group_id", using: :btree
     t.index ["school_id"], name: "index_students_on_school_id", using: :btree
   end
@@ -116,6 +134,10 @@ ActiveRecord::Schema.define(version: 20161001083510) do
     t.string   "type"
     t.integer  "school_id"
     t.integer  "group_id"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["group_id"], name: "index_users_on_group_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

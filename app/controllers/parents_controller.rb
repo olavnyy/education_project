@@ -53,7 +53,12 @@ class ParentsController < ApplicationController
   def parent_params
     params.
       require(:parent).
+<<<<<<< HEAD
       permit(:first_name, :last_name, :email, :contact_phone,
              :password, :password_confirmation)
+=======
+      permit(:first_name, :last_name, :student_id, :email, :contact_phone,
+             :password, :password_confirmation, :school_id)
+>>>>>>> aaa75f16c10bea2e0b4453349fc34840eb9a2e6b
   end
 end

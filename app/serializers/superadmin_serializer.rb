@@ -1,0 +1,2 @@
+class SuperadminSerializer  < UserSerializer
+end

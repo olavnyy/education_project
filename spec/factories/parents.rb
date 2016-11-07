@@ -1,12 +1,15 @@
 FactoryGirl.define do
   factory :parent do
 
-    first_name "Lviv_schoool"
-    last_name "svdfgbf"
-    password "123456qwer"
-    password_confirmation "123456qwer"
-    sequence(:email) { |n| "#{n}@examplew.com" }
-    contact_phone "+123456789012"
-    school_id 1
+    sequence(:first_name) { |n| "Parent#{n}" }
+    sequence(:last_name) { |n| "surParent#{n}" }
+    sequence(:email) { |n| "parent#{n}@gmail.com" }
+    password 'password'
+    password_confirmation 'password'
+    type 'Parent'
+    sequence(:school_id) { |n| "#{n}" }
+    sequence(:group_id) { |n| "#{n}" }
+    contact_phone '+123422789012'
+
   end
 end

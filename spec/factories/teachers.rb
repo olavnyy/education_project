@@ -1,13 +1,14 @@
 FactoryGirl.define do
   factory :teacher do
 
-    first_name "Brandon"
-    last_name "Flowers"
-    password "123456qwer"
-    password_confirmation "123456qwer"
-    sequence(:email) { |n| "#{n}q@eeexample.com" }
-    contact_phone "+123456789012"
-    school_id 1
-    group_id 2
+    sequence(:first_name) { |n| "Teacher#{n}" }
+    sequence(:last_name) { |n| "surTeacher#{n}" }
+    sequence(:email) { |n| "teacher#{n}@teacher.com" }
+    password 'password'
+    password_confirmation 'password'
+    type 'Teacher'
+    sequence(:school_id) { |n| "#{n}" }
+    sequence(:group_id) { |n| "#{n}" }
+    contact_phone '+123456733012'
   end
 end

@@ -14,19 +14,27 @@ class SchoolsController < ApplicationController
     render json: @school
   end
 
-   def index
+  def index
     @schools = School.all
     render json: @schools
   end
 
+##########################Mailer
+
   def create
     @school = School.new(school_params)
-    if @school.save
-      render json: @school
-    else
-      render 'new'
-    end
+      if @school.save
+        # Tell the SchoolMailer to send a welcome email after save
+        SchoolMailer.school_email(@school).deliver_now
+        render json: @school
+      else
+        render json: {
+        content: 'invalid save'
+        }
+      end
   end
+
+
 
   def edit
     @school= School.find(params[:id])
@@ -54,3 +62,5 @@ class SchoolsController < ApplicationController
   end
 
 end
+
+
