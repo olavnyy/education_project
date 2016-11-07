@@ -3,54 +3,40 @@ class AdminsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @admins = Admin.all
-    render json: @admins
+    render_content(Admin.all)
   end
 
   def show
-    @admin = Admin.find(params[:id])
-    if @admin.nil?
-      render json: {
-        content: 'invalid show'
-      }
-    else
-      render json: @admin
-    end
+    render_content(Admin.find(params[:id]))
   end
 
   def create
-    @admin = Admin.create(admin_params)
-binding.pry
-    if @admin.save
-      render json: @admin
-    else
-      render json: {
-        content: 'invalid create'
-      }
-    end
+    render_content(@admin) if @admin = Admin.create(admin_params)
+    binding.pry
   end
 
   def update
     @admin = Admin.find(params[:id])
-    if @admin.update_attributes(admin_params)
-      render json: @admin
-    else
-      render json: {
-        content: 'invalid update'
-      }
-    end
+    binding.pry
+    render_content(@admin) if @admin.update_attributes(admin_params)
   end
 
   def destroy
     Admin.find(params[:id]).destroy
-    render json: {
-      content: 'deleted'
-    }
   end
 
   private
+
   def admin_params
-    params.require(:admin).permit(:first_name, :last_name, :email, :school_id,
-                                  :contact_phone, :password, :password_confirmation)
+    merge_params
+    params
+      .require(:admin)
+      .permit(:first_name, :last_name, :email, :school_id, :contact_phone,
+              :password, :password_confirmation)
+  end
+
+  def merge_params
+    params[:admin][:password] = params[:password]
+    params[:admin][:password_confirmation] = params[:password_confirmation]
   end
 end

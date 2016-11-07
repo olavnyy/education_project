@@ -13,6 +13,7 @@ class User < ApplicationRecord
 
   has_attached_file :avatar, styles: { medium: "200x200>", thumb: "70x70>" }, default_url: "http://grdevday.org/wp-content/uploads/2016/02/missing.png"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
+
   # Define type of user (for app/models/ability.rb)
   def superadmin?
     self.type == 'Superadmin'

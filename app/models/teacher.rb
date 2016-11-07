@@ -1,5 +1,7 @@
 # Define the Teacher model
 class Teacher < User
+  include Selectable
+
   belongs_to :school
   belongs_to :group
 
@@ -9,15 +11,14 @@ class Teacher < User
                                                 school_id: user.school_id).parents }
   scope :news_list, ->(user) { News.where(QUERY,
                                           school_id: user.school_id,
-                                          level_id: user.group.level_id,
-                                          group_id: user.group_id)}
+                                          level_ids: user.group.level_id,
+                                          group_ids: user.group_id
+                                          )
+                              }
   scope :albums_list, ->(user) { Album.where(QUERY,
                                              school_id: user.school_id,
-                                             level_id: user.group.level_id,
-                                             group_id: user.group_id)}
-
-  QUERY = "(imageable_type = 'School' AND imageable_id = :school_id)
-          OR (imageable_type = 'Level' AND imageable_id = :level_id)
-          OR (imageable_type = 'Group' AND imageable_id = :group_id)"
-
+                                             level_ids: user.group.level_id,
+                                             group_ids: user.group_id
+                                             )
+                               }
 end
