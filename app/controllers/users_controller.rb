@@ -51,6 +51,6 @@ class UsersController < ApplicationController
     params
       .require(:user)
       .permit(:first_name, :last_name, :email, :contact_phone, :password,
-              :password_confirmation, :avatar, :type)
+              :password_confirmation, :avatar, :type, :school_id, :group_id)
   end
 end
