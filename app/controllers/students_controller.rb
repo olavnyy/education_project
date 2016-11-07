@@ -3,58 +3,42 @@ class StudentsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @students = @current_user.class.students_list(@current_user)
-    render json: @students
+    render_content(current_student(@current_user))
   end
 
   def show
-    @student = @current_user.class.students_list(@current_user).find(params[:id])
-    if @student.nil?
-      render json: {
-        content: 'invalid show'
-      }
-    else
-      render json: @student
-    end
+    render_content(current_student(@current_user).find(params[:id]))
   end
 
   def create
-    @student = @current_user.class.students_list(@current_user).new(student_params)
-    @student.avatar = decode_base64_image(params[:avatar]) if params[:avatar]
-    if @student.save
-      render json: @student
-    else
-      render json: {
-        content: 'invalid create'
-      }
-    end
+    @student = current_student(@current_user).new(student_params)
+    add_avatar(@student)
+    render_content(@student) if @student.save
   end
 
   def update
-    @student = @current_user.class.students_list(@current_user).find(params[:id])
-    @student.avatar = decode_base64_image(params[:student][:avatar]) if params[:student][:avatar]
-    if @student.update_attributes(student_params)
-      render json: @student
-    else
-      render json: {
-        content: 'invalid update'
-      }
-    end
+    @student = current_student(@current_user).find(params[:id])
+    add_avatar(@student)
+    render_content(@student) if @student.update_attributes(student_params)
   end
 
   def destroy
-    @current_user.class.students_list(@current_user).find(params[:id]).destroy
-    render json: {
-      content: 'deleted'
-    }
+    current_student(@current_user).find(params[:id]).destroy
   end
 
   private
+
+  def current_student(user)
+    student = @current_user.class.students_list(user)
+  end
+
+  def add_avatar(student)
+    student.avatar = decode_base64_image(params[:avatar]) if params[:avatar]
+  end
 
   def student_params
     params
       .require(:student)
       .permit(:id, :first_name, :last_name, :group_id, :school_id, :age, :avatar)
-
   end
 end
