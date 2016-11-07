@@ -38,29 +38,11 @@ end
   FactoryGirl.create(:level)
   FactoryGirl.create(:group)
   FactoryGirl.create(:news)
-<<<<<<< HEAD
-end
-
-
-5.times do |n|
-    FactoryGirl.create(:student)
-end
-
-5.times do |n|
-  FactoryGirl.create(:parent)
-end
-
-5.times do |n|
-    FactoryGirl.create(:teacher)
-end
-
-=======
->>>>>>> development
 	FactoryGirl.create(:school)
   FactoryGirl.create(:admin)
   FactoryGirl.create(:student)
   FactoryGirl.create(:health_info)
-
+end
 
 3.times do |n|
 	FactoryGirl.create(:parent)

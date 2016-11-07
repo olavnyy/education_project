@@ -1,5 +1,5 @@
 class RequestMailer < ApplicationMailer
-default from: 'kuriy.yevgeniy@gmail.com'
+default from: 'psrsui197ruby@gmail.com'
  
 	def request_email(request)
       @request = request

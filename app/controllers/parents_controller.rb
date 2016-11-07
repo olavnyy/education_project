@@ -54,9 +54,16 @@ class ParentsController < ApplicationController
   private
 
   def parent_params
-    params.
-      require(:parent).
-      permit(:first_name, :last_name, :student_id, :email, :contact_phone,
-             :password, :password_confirmation, :school_id)
+    merge_params
+      params
+        .require(:parent)
+        .permit(:first_name, :last_name, :email,:contact_phone, 
+                :password, :password_confirmation, :school_id, :student_id)
   end
+
+  def merge_params
+      params[:parent][:password] = params[:password]
+      params[:parent][:password_confirmation] = params[:password_confirmation]
+  end
+
 end

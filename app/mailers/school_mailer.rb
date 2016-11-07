@@ -1,5 +1,5 @@
 class SchoolMailer < ApplicationMailer
-  default from: 'kuriy.yevgeniy@gmail.com'
+  default from: 'psrsui197ruby@gmail.com'
  
 	def school_email(school)
       @school = school

@@ -1,4 +1,5 @@
 class RequestsController < ApplicationController
+  skip_before_action :authenticate_request!, only: [:create]
   def create
     @request = Request.new(request_params)
       if @request.save
