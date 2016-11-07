@@ -23,11 +23,13 @@ class SchoolsController < ApplicationController
   def create
     @school = @current_user.class.schools_list(@current_user).new(school_params)
     if @school.save
-      render json: @school
+        # Tell the SchoolMailer to send a welcome email after save
+        SchoolMailer.school_email(@school).deliver_now
+        render json: @school
     else
-      render json: {
-        content: 'invalid create'
-      }
+        render json: {
+        content: 'invalid save'
+        }
     end
   end
 

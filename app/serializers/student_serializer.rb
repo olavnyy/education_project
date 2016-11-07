@@ -12,5 +12,4 @@ class StudentSerializer < ActiveModel::Serializer
   def avatar_url_thumb
    object.avatar.url(:thumb)
   end
-
 end

@@ -1,0 +1,16 @@
+I would like to register School <%= @request.name %> in PSRS
+
+1. General School Information
+School Name: <%= @request.name %>
+School Address: <%= @request.address %>
+School E-mail: <%= @request.email %>
+School Contact Phone: <%= @request.contact_phone %>
+
+2. School Administrator Information
+First name: <%= @request.admin_fname %>
+Last name: <%= @request.admin_lname %>
+E-mail: <%= @request.admin_email %>
+Contact phone: <%= @request.admin_contact_phone %>
+
+Additional Information / Comments
+<%= @request.additionalinfo %>

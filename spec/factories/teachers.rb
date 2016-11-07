@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :teacher do
+
     sequence(:first_name) { |n| "Teacher#{n}" }
     sequence(:last_name) { |n| "surTeacher#{n}" }
     sequence(:email) { |n| "teacher#{n}@teacher.com" }

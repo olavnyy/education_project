@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'requests/create'
+
   post 'auth_user' => 'authentication#authenticate_user'
   devise_for :users
   resources :users, only: [:show,:index,:update,:destroy]
@@ -11,7 +13,7 @@ Rails.application.routes.draw do
   resources :parents, defaults: { format: 'json' }
   resources :students, defaults: { format: 'json' }
   resources :admins, defaults: { format: 'json' }
-
+  resources :requests, defaults: { format: 'json' }
 # Routes for photoalbums
   resources :albums do
     resources :photos
