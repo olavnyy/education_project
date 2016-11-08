@@ -1,65 +1,45 @@
 class LevelsController < ApplicationController
   load_and_authorize_resource
-
+  before_action :set_level, only: [:show, :update, :destroy]
   def index
-    @levels = @current_user.class.levels_list(@current_user)
-    render json: @levels
+    render_content(levels_list)
   end
 
   def show
-    @level = @current_user.class.levels_list(@current_user).find(params[:id])
-    if @level.nil?
-      render json: {
-        content: 'invalid show'
-      }
-    else
-      render json: @level
-    end
+    render_content(@level)
   end
 
   def create
-    @level = @current_user.class.levels_list(@current_user).new(level_params)
-    if @level.save
-      render json: @level
-    else
-      render json: {
-        content: 'invalid create'
-      }
-    end
+    @level = Level.new(level_params)
+    school = get_current_school
+    @level.write_attribute(:school_id, school)
+    render_content(@level.save ? {level: @level, status: true} : {errors: @level.errors, status: false})
   end
 
   def update
-    @level = @current_user.class.levels_list(@current_user).find(params[:id])
-    if @level.update_attributes(level_params)
-      render json: @level
-    else
-      render json: {
-        content: 'invalid update'
-      }
-    end
+    render_content(@level.update_attributes(level_params) ? {level: @level, status: true} : {errors: @level.errors, status: false})
   end
 
   def destroy
-    @current_user.class.levels_list(@current_user).find(params[:id]).destroy
-    render json: {
-      content: 'deleted'
-    }
-  end
-
-  # This not working yet
-  def new
-    @level = @current_user.class.levels_list(@current_user)
-    render json: @level
-  end
-
-  # This not working yet
-  def edit
-    @level = @current_user.class.levels_list(@current_user).find(params[:id])
+    render_content({status: (@level && @level.destroy ? true : false)})
   end
 
   private
 
+  def set_level
+    @level = levels_list.find_by(id: params[:id])
+  end
+
+  def levels_list
+    @current_user.type?('Admin') ? @current_user.school.levels : @current_user.levels
+  end
+
+  def get_current_school
+    @current_user.attributes['school_id']
+  end
+
   def level_params
-    params.require(:level).permit(:name)
+    params.require(:level)
+        .permit(:name, :school_id)
   end
 end
