@@ -7,7 +7,11 @@ class ApplicationController < ActionController::API
   before_action :authenticate_request!, except: [:authenticate_user]
 
   private
-  
+
+  def render_content(item)
+    render json: item
+  end
+
   def decode_base64_image(image)
     if image[:base64] && image[:filetype] && image[:filename]
       decoded_avatar = Base64.decode64(image[:base64])
