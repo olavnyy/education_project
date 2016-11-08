@@ -221,6 +221,7 @@ DEPENDENCIES
   jwt
   listen (~> 3.0.5)
   mysql2 (~> 0.4.4)
+  nokogiri (= 1.6.8.1)
   paperclip (~> 4.3, >= 4.3.6)
   pry (~> 0.10.4)
   pry-rails

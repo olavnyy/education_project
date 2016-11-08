@@ -47,8 +47,8 @@ class AttendancesController < ApplicationController
   end
 
   private
-
+  # , report_time_attributes: [:start, :end]
   def attendance_params
-    params.require(:attendance).permit(:time, :present, :start, :end)
+    params.require(:attendance).permit(:time, :present, :student_id, :journal_id)
   end
 end

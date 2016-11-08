@@ -15,6 +15,8 @@ gem 'active_model_serializers', '~> 0.8.3'
 gem 'rails-controller-testing'
 gem 'rack-cors'
 
+
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
@@ -33,6 +35,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
   gem 'factory_girl_rails', '~> 4.5'
+  gem 'nokogiri', '1.6.8.1'
 end
 
 group :test do
