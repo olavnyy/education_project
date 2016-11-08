@@ -19,3 +19,10 @@ npm-debug.log
 
 # Ignore Byebug command history file.
 .byebug_history
+
+# Ignore application configuration
+/config/application.yml
+
+/config/initializers/cors.rb
+/config/environments/development.rb
+/config/cable.yml

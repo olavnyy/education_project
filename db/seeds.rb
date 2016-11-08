@@ -11,6 +11,16 @@ Album.create(title: "Horses",
             imageable_type: "Group",
             imageable_id: 1)
 
+School.create(name: "School Lviv",
+            email: "lviv@ukr.com",
+            address: "Lviv 2",
+            contact_phone: "123456789")
+
+School.create(name: "School IF",
+            email: "if@ukr.com",
+            address: "IF 2",
+            contact_phone: "87438784378")
+
 Album.create(title: "Dogs2",
             image: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQSpyafEqJwu7iXv3deAkDbyZ-wklcQlAxGxei-Z8kWKEjeDvOVhA",
             imageable_type: "Level",
@@ -23,10 +33,6 @@ end
 10.times do |n|
   FactoryGirl.create(:photo)
 end
-
-#Photo.create(image_file_name: "horse.jpg",
-#            image_content_type: "image/jpeg",
-#            image_file_size: 999)
 
 5.times do |n|
   FactoryGirl.create(:level)
@@ -42,3 +48,4 @@ end
 	FactoryGirl.create(:parent)
   FactoryGirl.create(:teacher)
 end
+

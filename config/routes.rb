@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'requests/create'
+
   post 'auth_user' => 'authentication#authenticate_user'
   devise_for :users
   resources :users, only: [:show,:index,:update,:destroy]
@@ -15,6 +17,7 @@ Rails.application.routes.draw do
   resources :attendances, defaults: { format: 'json' }
   resources :report_times, defaults: { format: 'json' }
 
+  resources :requests, defaults: { format: 'json' }
 # Routes for photoalbums
   resources :albums do
     resources :photos

@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161105163517) do
+
+ActiveRecord::Schema.define(version: 20161104223534) do
 
   create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
@@ -71,11 +72,12 @@ ActiveRecord::Schema.define(version: 20161105163517) do
 
   create_table "news", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
-    t.string   "description"
+    t.text     "description",    limit: 65535
     t.string   "imageable_type"
     t.integer  "imageable_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "image"
     t.index ["imageable_type", "imageable_id"], name: "index_news_on_imageable_type_and_imageable_id", using: :btree
   end
 
@@ -97,6 +99,20 @@ ActiveRecord::Schema.define(version: 20161105163517) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["attendance_id"], name: "index_report_times_on_attendance_id", using: :btree
+  end
+
+  create_table "requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "address"
+    t.string   "email"
+    t.string   "contact_phone"
+    t.string   "admin_fname"
+    t.string   "admin_lname"
+    t.string   "admin_email"
+    t.string   "admin_contact_phone"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.text     "additionalinfo",      limit: 65535
   end
 
   create_table "schools", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

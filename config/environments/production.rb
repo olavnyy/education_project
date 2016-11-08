@@ -1,5 +1,14 @@
 Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
+  #Settings for Amazon S3 and paperclip
+  config.paperclip_defaults = {
+    storage: :s3,
+    s3_credentials: {
+      bucket: ENV['S3_BUCKET_NAME'],
+      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+      s3_region: ENV['AWS_REGION'],
+    }
+  }
 
   # Code is not reloaded between requests.
   config.cache_classes = true
@@ -43,6 +52,19 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  config.action_mailer.delivery_method = :smtp
+  # SMTP settings for gmail
+  config.action_mailer.smtp_settings = {
+    address:              'smtp.gmail.com',
+    port:                 587,
+    domain:               'gmail.com',
+    user_name:            ENV['APP_EMAIL'],
+    password:             ENV['APP_PASSWORD'],
+    authentication:       :plain,
+    enable_starttls_auto: true
+  }
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque

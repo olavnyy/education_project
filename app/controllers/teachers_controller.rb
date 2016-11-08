@@ -44,9 +44,16 @@ class TeachersController < ApplicationController
   private
 
   def teacher_params
-    params
-      .require(:teacher)
-      .permit(:first_name, :last_name, :group_id, :email,
-              :contact_phone, :password, :password_confirmation, :school_id)
+    merge_params
+      params
+        .require(:teacher)
+        .permit(:first_name, :last_name, :email,:contact_phone, 
+                :password, :password_confirmation, :school_id, :group_id)
   end
+
+  def merge_params
+      params[:teacher][:password] = params[:password]
+      params[:teacher][:password_confirmation] = params[:password_confirmation]
+  end
+  
 end
