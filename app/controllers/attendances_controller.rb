@@ -1,53 +1,38 @@
 class AttendancesController < ApplicationController
   load_and_authorize_resource
-
+  before_action :set_attendance, only: [:show, :update, :destroy]
   def index
-    @attendances =  @current_user.class.attendances_list(@current_user)
-    render json: @attendances
+    render_content(attendances_list)
+    render_content({server_time: Time.now.utc})
   end
 
   def show
-    @attendance =  @current_user.class.attendances_list(@current_user).find(params[:id])
-    if @attendance.nil?
-      render json: {
-          content: 'invalid show'
-      }
-    else
-      render json: @attendance
-    end
+    render_content(@attendance)
   end
 
   def create
-    @attendance =  @current_user.class.attendances_list(@current_user).new(attendance_params)
-    if @attendance.save
-      render json: @attendance
-    else
-      render json: {
-          content: 'invalid create'
-      }
-    end
+    @attendance = Attendance.new(attendance_params)
+    render_content(@attendance.save ? {attendance: @attendance, status: true} : {errors: @attendance.errors, status: false})
   end
 
   def update
-    @attendance =  @current_user.class.attendances_list(@current_user).find(params[:id])
-    if @attendance.update_attributes(attendance_params)
-      render json: @attendance
-    else
-      render json: {
-          content: 'invalid update'
-      }
-    end
+    render_content(@attendance.update_attributes(attendance_params) ? {level: @attendance, status: true} : {errors: @attendance.errors, status: false})
   end
 
   def destroy
-    @current_user.class.attendances_list(@current_user).find(params[:id]).destroy
-    render json: {
-        content: 'deleted'
-    }
+    render_content({status: (@attendance && @attendance.destroy ? true : false)})
   end
 
   private
-  # , report_time_attributes: [:start, :end]
+
+  def set_attendance
+    @attendance = attendances_list.find_by(id: params[:id])
+  end
+
+  def attendances_list
+    @current_user.type?('Teacher') ? @current_user.group.journal.attendances : @current_user.attendances
+  end
+
   def attendance_params
     params.require(:attendance)
         .permit(:time, :present, :student_id, :journal_id,
