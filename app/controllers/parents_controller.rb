@@ -1,69 +1,49 @@
 class ParentsController < ApplicationController
   load_and_authorize_resource
+  before_action :set_parent, only: [:show, :update, :destroy]
+
+  def index
+    render_content(parents_list)
+  end
 
   def show
-    @parent = @current_user.class.parents_list(@current_user).find(params[:id])
-    render json: @parent
-  end
-
-  def new
-    @parent = @current_user.class.parents_list(@current_user)
-    render json: @parent
-  end
-
-   def index
-    @parent = @current_user.class.parents_list(@current_user)
-    render json: @parent
+    render_content(@parent)
   end
 
   def create
-    @parent = @current_user.class.parents_list(@current_user).new(parent_params)
-    if @parent.save
-      redirect_to @parent
-    else
-      render json: {
-        content: 'invalid create'
-      }
-    end
-  end
-
-  def edit
-    @parent= @current_user.class.parents_list(@current_user).find(params[:id])
-    render json: @parent
-  end
-
-  def destroy
-    @current_user.class.parents_list(@current_user).find(params[:id]).destroy
-    render json: {
-      content: 'deleted'
-    }
+    @parent = Parent.new(parent_params)
+    render_content(@parent.save ? {parent: @parent, status: true} : {errors: @parent.errors, status: false})
   end
 
   def update
-    @parent = @current_user.class.parents_list(@current_user).find(params[:id])
-    if @parent.update_attributes(parent_params)
-     render json: @parent
-    # Handle a successful update.
-    else
-      render json: {
-        content: 'invalid update'
-      }
-    end
+    render_content(@parent.update_attributes(parent_params) ? {parent: @parent, status: true} : {errors: @parent.errors, status: false})
+  end
+
+  def destroy
+    render_content({status: (@parent && @parent.destroy ? true : false)})
   end
 
   private
 
+  def set_parent
+    @parent = parents_list.find_by(id: params[:id])
+  end
+
+  def parents_list
+    @current_user.type?('Admin') ? @current_user.school.parents : @current_user.students.parents
+  end
+
   def parent_params
     merge_params
-      params
-        .require(:parent)
-        .permit(:first_name, :last_name, :email,:contact_phone, 
-                :password, :password_confirmation, :school_id, :student_id)
+    params
+      .require(:parent)
+      .permit(:first_name, :last_name, :email, :contact_phone,
+             :password, :password_confirmation, :school_id)
   end
 
   def merge_params
-      params[:parent][:password] = params[:password]
-      params[:parent][:password_confirmation] = params[:password_confirmation]
+    params[:parent][:password] = params[:password]
+    params[:parent][:password_confirmation] = params[:password_confirmation]
   end
-
 end
+
