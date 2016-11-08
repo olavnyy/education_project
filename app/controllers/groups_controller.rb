@@ -30,7 +30,7 @@ class GroupsController < ApplicationController
   end
 
   def groups_list
-    @current_user.school.groups if @current_user.admin?
+    @current_user.school.groups if @current_user.type?('Admin')
   end
 
   def group_params

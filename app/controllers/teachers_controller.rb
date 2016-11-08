@@ -31,7 +31,7 @@ class TeachersController < ApplicationController
   end
 
   def teachers_list
-   @current_user.school.teachers if   @current_user.admin?
+   @current_user.school.teachers if   @current_user.type?('Admin')
   end
 
   def teacher_params

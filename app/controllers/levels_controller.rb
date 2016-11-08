@@ -30,7 +30,7 @@ class LevelsController < ApplicationController
   end
 
   def levels_list
-    @current_user.school.levels if @current_user.admin?
+    @current_user.school.levels if @current_user.type?('Admin')
   end
 
   def level_params

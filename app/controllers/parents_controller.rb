@@ -30,7 +30,7 @@ class ParentsController < ApplicationController
   end
 
   def parents_list
-    @current_user.admin? ? @current_user.school.parents : @current_user.students.parents
+    @current_user.type?('Admin') ? @current_user.school.parents : @current_user.students.parents
   end
 
   def parent_params

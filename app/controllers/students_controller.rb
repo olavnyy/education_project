@@ -14,6 +14,7 @@ class StudentsController < ApplicationController
   def create
     @student = Student.new(student_params)
     add_avatar
+binding.pry
     render_content(@student.save ? {student: @student, status: true} : {errors: @student.errors, status: false})
   end
 
@@ -33,7 +34,7 @@ class StudentsController < ApplicationController
   end
 
   def students_list
-    @current_user.admin? ? @current_user.school.students : @current_user.students
+    @current_user.type?('Admin') ? @current_user.school.students : @current_user.students
   end
 
   def add_avatar

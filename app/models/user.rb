@@ -30,21 +30,31 @@ class User < ApplicationRecord
 
 
   # Define type of user (for app/models/ability.rb)
-  def superadmin?
-    self.type == 'Superadmin'
+  def type?(role)
+    self.type == role
   end
 
-  def admin?
-    self.type == 'Admin'
+  private
+
+  # Select level_ids for QUERY
+  def self.level_ids(user)
+    if user.type?('Admin')
+      user.school.levels.pluck(:id)
+    elsif user.type?('Teacher')
+      user.group.level_id
+    elsif user.type?('Parent')
+      user.students.map(&:group).pluck(:level_id)
+    end
   end
 
-  def teacher?
-    self.type == 'Teacher'
+  # Select group_ids for QUERY
+  def self.group_ids(user)
+    if user.type?('Admin')
+      user.school.groups.pluck(:id)
+    elsif user.type?('Teacher')
+      user.group_id
+    elsif user.type?('Parent')
+      user.students.pluck(:group_id)
+    end
   end
-
-  def parent?
-    self.type == 'Parent'
-  end
-
-
 end
