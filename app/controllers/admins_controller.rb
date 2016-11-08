@@ -12,12 +12,10 @@ class AdminsController < ApplicationController
 
   def create
     render_content(@admin) if @admin = Admin.create(admin_params)
-    binding.pry
   end
 
   def update
     @admin = Admin.find(params[:id])
-    binding.pry
     render_content(@admin) if @admin.update_attributes(admin_params)
   end
 

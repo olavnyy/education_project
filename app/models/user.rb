@@ -14,6 +14,21 @@ class User < ApplicationRecord
   has_attached_file :avatar, styles: { medium: "200x200>", thumb: "70x70>" }, default_url: "http://grdevday.org/wp-content/uploads/2016/02/missing.png"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
+  # Limited scope for News and Albums for different type of User
+  scope :news_list, ->(user) { News.where(QUERY,
+                                          school_id: user.school_id,
+                                          level_ids: level_ids(user),
+                                          group_ids: group_ids(user)) }
+  scope :albums_list, ->(user) { Album.where(QUERY,
+                                             school_id: user.school_id,
+                                             level_ids: level_ids(user),
+                                             group_ids: group_ids(user)) }
+  QUERY = "(imageable_type = 'School' AND imageable_id = :school_id)
+          OR (imageable_type = 'Level' AND imageable_id IN (:level_ids))
+          OR (imageable_type = 'Group' AND imageable_id IN (:group_ids))"
+
+
+
   # Define type of user (for app/models/ability.rb)
   def superadmin?
     self.type == 'Superadmin'
@@ -30,4 +45,6 @@ class User < ApplicationRecord
   def parent?
     self.type == 'Parent'
   end
+
+
 end
