@@ -1,56 +1,45 @@
 # Define Admins controller
 class AdminsController < ApplicationController
   load_and_authorize_resource
+  before_action :set_admin, only: [:show, :update, :destroy]
 
   def index
-    @admins = Admin.all
-    render json: @admins
+    render_content(Admin.all)
   end
 
   def show
-    @admin = Admin.find(params[:id])
-    if @admin.nil?
-      render json: {
-        content: 'invalid show'
-      }
-    else
-      render json: @admin
-    end
+    render_content(@admin))
   end
 
   def create
     @admin = Admin.new(admin_params)
-    if @admin.save
-      render json: @admin
-    else
-      render 'new'
-    end
+    render_content(@admin.save ? {admin: @admin, status: true} : {errors: @admin.errors, status: false})
   end
 
   def update
-    @admin = Admin.find(params[:id])
-    if @admin.update_attributes(admin_params)
-      render json: @admin
-    else
-      render json: {
-        content: 'invalid update'
-      }
-    end
+    render_content(@admin.update_attributes(admin_params) ? {admin: @admin, status: true} : {errors: @admin.errors, status: false})
   end
 
   def destroy
-    Admin.find(params[:id]).destroy
-    render json: {
-      content: 'deleted'
-    }
+    render_content({status: (@admin && @admin.destroy ? true : false)})
   end
 
   private
 
+  def set_admin
+    @admin = Admin.find(params[:id])
+  end
+
   def admin_params
+    merge_params
     params
       .require(:admin)
-      .permit(:first_name, :last_name, :email, :school_id,
-              :contact_phone, :password, :password_confirmation)
-    end
+      .permit(:first_name, :last_name, :email, :school_id, :contact_phone,
+              :password, :password_confirmation)
+  end
+
+  def merge_params
+    params[:admin][:password] = params[:password]
+    params[:admin][:password_confirmation] = params[:password_confirmation]
+  end
 end
