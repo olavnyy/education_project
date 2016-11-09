@@ -13,6 +13,7 @@ class NewsController < ApplicationController
   def create
     @news = News.new(news_params)
     add_image
+    @news.user_id = @current_user.id
     render_content(@news.save ? {news: @news, status: true} : {errors: @news.errors, status: false})
   end
 
@@ -42,6 +43,6 @@ class NewsController < ApplicationController
   end
 
   def news_params
-    params.require(:news).permit(:title, :description, :image, :created_at, :imageable_type, :imageable_id)
+    params.require(:news).permit(:title, :description, :image, :created_at, :imageable_type, :imageable_id, :user_id)
   end
 end
