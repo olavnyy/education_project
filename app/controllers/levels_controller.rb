@@ -1,6 +1,7 @@
 class LevelsController < ApplicationController
   load_and_authorize_resource
   before_action :set_level, only: [:show, :update, :destroy]
+
   def index
     render_content(levels_list)
   end
@@ -11,8 +12,7 @@ class LevelsController < ApplicationController
 
   def create
     @level = Level.new(level_params)
-    school = get_current_school
-    @level.write_attribute(:school_id, school)
+    @level.write_attribute(:school_id, @current_user.school_id)
     render_content(@level.save ? {level: @level, status: true} : {errors: @level.errors, status: false})
   end
 
@@ -34,12 +34,7 @@ class LevelsController < ApplicationController
     @current_user.type?('Admin') ? @current_user.school.levels : @current_user.levels
   end
 
-  def get_current_school
-    @current_user.attributes['school_id']
-  end
-
   def level_params
-    params.require(:level)
-        .permit(:name, :school_id)
+    params.require(:level).permit(:name, :school_id)
   end
 end

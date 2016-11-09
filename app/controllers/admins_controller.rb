@@ -12,8 +12,7 @@ class AdminsController < ApplicationController
   end
 
   def create
-    @admin = Admin.new(admin_params)
-    render_content(@admin.save ? {admin: @admin, status: true} : {errors: @admin.errors, status: false})
+    render_content(@admin) if @admin = Admin.create(admin_params)
   end
 
   def update
@@ -21,7 +20,7 @@ class AdminsController < ApplicationController
   end
 
   def destroy
-    render_content({status: (@admin && @admin.destroy ? true : false)})
+    Admin.find(params[:id]).destroy
   end
 
   private
