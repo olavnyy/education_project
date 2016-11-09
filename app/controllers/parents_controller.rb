@@ -12,12 +12,12 @@ class ParentsController < ApplicationController
 
   def create
     @parent = Parent.new(parent_params)
-    @parent.school_id = @current_user.school_id
+    @teacher.school_id = @current_user.school_id
     render_content(@parent.save ? {parent: @parent, status: true} : {errors: @parent.errors, status: false})
   end
 
   def update
-    render_content(@parent.update_attributes(parent_params) ? {parent: @parent, status: true} : {errors: @parent.errors, status: false})
+    render_content(@parent.update_attributes(parent_update_params) ? {parent: @parent, status: true} : {errors: @parent.errors, status: false})
   end
 
   def destroy
@@ -31,7 +31,7 @@ class ParentsController < ApplicationController
   end
 
   def parents_list
-    @current_user.type?('Admin') ? @current_user.school.parents : @current_user.parents
+    @current_user.type?('Admin') ? @current_user.school.parents : @current_user.students.parents
   end
 
   def parent_params
@@ -39,12 +39,21 @@ class ParentsController < ApplicationController
     params
       .require(:parent)
       .permit(:first_name, :last_name, :email, :contact_phone,
-             :password, :password_confirmation, :school_id)
+              :password, :password_confirmation, :school_id, :student_id)
   end
 
   def merge_params
     params[:parent][:password] = params[:password]
     params[:parent][:password_confirmation] = params[:password_confirmation]
   end
+
+  def parent_update_params
+    params
+      .require(:user)
+      .permit(:first_name, :last_name, :email, :contact_phone,
+              :school_id, :student_id)
+  end
+end
+
 end
 
