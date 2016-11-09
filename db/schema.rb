@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161104223534) do
+
+ActiveRecord::Schema.define(version: 20161109170548) do
 
   create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
@@ -22,6 +23,29 @@ ActiveRecord::Schema.define(version: 20161104223534) do
     t.integer  "school_id"
     t.index ["imageable_type", "imageable_id"], name: "index_albums_on_imageable_type_and_imageable_id", using: :btree
     t.index ["school_id"], name: "index_albums_on_school_id", using: :btree
+  end
+
+  create_table "attendances", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.boolean  "present",         default: false
+    t.integer  "daily_report_id"
+    t.integer  "student_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.date     "time"
+    t.integer  "group_id"
+    t.index ["daily_report_id"], name: "index_attendances_on_daily_report_id", using: :btree
+    t.index ["group_id"], name: "index_attendances_on_group_id", using: :btree
+    t.index ["student_id"], name: "index_attendances_on_student_id", using: :btree
+  end
+
+  create_table "daily_reports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "group_id"
+    t.datetime "day"
+    t.integer  "student_id"
+    t.index ["group_id"], name: "index_daily_reports_on_group_id", using: :btree
+    t.index ["student_id"], name: "index_daily_reports_on_student_id", using: :btree
   end
 
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -52,13 +76,18 @@ ActiveRecord::Schema.define(version: 20161104223534) do
 
   create_table "news", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
-    t.text     "description",    limit: 65535
+    t.text     "description",        limit: 65535
     t.string   "imageable_type"
     t.integer  "imageable_id"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.string   "image"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.integer  "user_id"
     t.index ["imageable_type", "imageable_id"], name: "index_news_on_imageable_type_and_imageable_id", using: :btree
+    t.index ["user_id"], name: "index_news_on_user_id", using: :btree
   end
 
   create_table "photos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -151,6 +180,7 @@ ActiveRecord::Schema.define(version: 20161104223534) do
   add_foreign_key "groups", "levels"
   add_foreign_key "groups", "schools"
   add_foreign_key "levels", "schools"
+  add_foreign_key "news", "users"
   add_foreign_key "photos", "albums"
   add_foreign_key "students", "groups"
   add_foreign_key "students", "schools"
