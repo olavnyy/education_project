@@ -7,4 +7,7 @@ class News < ApplicationRecord
             format: { with: VALID_TITLE_REGEX }
   validates :description, presence: true, length: { maximum: 512 },
             format: { with: VALID_CONTENT_REGEX }
+
+  has_attached_file :image, styles: { medium: "200x200>", thumb: "70x70>" }
+  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 end

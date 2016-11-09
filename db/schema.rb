@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161105163517) do
+ActiveRecord::Schema.define(version: 20161109113621) do
 
   create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
@@ -22,17 +22,6 @@ ActiveRecord::Schema.define(version: 20161105163517) do
     t.integer  "school_id"
     t.index ["imageable_type", "imageable_id"], name: "index_albums_on_imageable_type_and_imageable_id", using: :btree
     t.index ["school_id"], name: "index_albums_on_school_id", using: :btree
-  end
-
-  create_table "attendances", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.date     "time"
-    t.boolean  "present",    default: false
-    t.integer  "journal_id"
-    t.integer  "student_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.index ["journal_id"], name: "index_attendances_on_journal_id", using: :btree
-    t.index ["student_id"], name: "index_attendances_on_student_id", using: :btree
   end
 
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -53,14 +42,6 @@ ActiveRecord::Schema.define(version: 20161105163517) do
     t.integer  "student_id"
   end
 
-  create_table "journals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "group_id"
-    t.string   "title"
-    t.index ["group_id"], name: "index_journals_on_group_id", using: :btree
-  end
-
   create_table "levels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -71,13 +52,23 @@ ActiveRecord::Schema.define(version: 20161105163517) do
 
   create_table "news", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
-    t.text     "description",    limit: 65535
+    t.text     "description",        limit: 65535
     t.string   "imageable_type"
     t.integer  "imageable_id"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.string   "image"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
     t.index ["imageable_type", "imageable_id"], name: "index_news_on_imageable_type_and_imageable_id", using: :btree
+  end
+
+  create_table "parents_students", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "user_id",    null: false
+    t.integer "student_id", null: false
+    t.index ["student_id"], name: "index_parents_students_on_student_id", using: :btree
+    t.index ["user_id"], name: "index_parents_students_on_user_id", using: :btree
   end
 
   create_table "photos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -89,15 +80,6 @@ ActiveRecord::Schema.define(version: 20161105163517) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.index ["album_id"], name: "index_photos_on_album_id", using: :btree
-  end
-
-  create_table "report_times", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.time     "start"
-    t.time     "end"
-    t.integer  "attendance_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.index ["attendance_id"], name: "index_report_times_on_attendance_id", using: :btree
   end
 
   create_table "requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -137,13 +119,6 @@ ActiveRecord::Schema.define(version: 20161105163517) do
     t.datetime "avatar_updated_at"
     t.index ["group_id"], name: "index_students_on_group_id", using: :btree
     t.index ["school_id"], name: "index_students_on_school_id", using: :btree
-  end
-
-  create_table "students_users", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "student_id"
-    t.integer "parent_id"
-    t.index ["parent_id"], name: "index_students_users_on_parent_id", using: :btree
-    t.index ["student_id"], name: "index_students_users_on_student_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
