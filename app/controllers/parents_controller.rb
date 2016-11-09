@@ -12,6 +12,7 @@ class ParentsController < ApplicationController
 
   def create
     @parent = Parent.new(parent_params)
+    @parent.school_id = @current_user.school_id
     render_content(@parent.save ? {parent: @parent, status: true} : {errors: @parent.errors, status: false})
   end
 
@@ -30,7 +31,7 @@ class ParentsController < ApplicationController
   end
 
   def parents_list
-    @current_user.type?('Admin') ? @current_user.school.parents : @current_user.students.parents
+    @current_user.type?('Admin') ? @current_user.school.parents : @current_user.parents
   end
 
   def parent_params

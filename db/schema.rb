@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161109164821) do
+
+ActiveRecord::Schema.define(version: 20161109170548) do
 
   create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
@@ -75,13 +76,18 @@ ActiveRecord::Schema.define(version: 20161109164821) do
 
   create_table "news", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
-    t.text     "description",    limit: 65535
+    t.text     "description",        limit: 65535
     t.string   "imageable_type"
     t.integer  "imageable_id"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.string   "image"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.integer  "user_id"
     t.index ["imageable_type", "imageable_id"], name: "index_news_on_imageable_type_and_imageable_id", using: :btree
+    t.index ["user_id"], name: "index_news_on_user_id", using: :btree
   end
 
   create_table "photos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -93,15 +99,6 @@ ActiveRecord::Schema.define(version: 20161109164821) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.index ["album_id"], name: "index_photos_on_album_id", using: :btree
-  end
-
-  create_table "report_times", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.time     "start"
-    t.time     "end"
-    t.integer  "attendance_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.index ["attendance_id"], name: "index_report_times_on_attendance_id", using: :btree
   end
 
   create_table "requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -183,6 +180,7 @@ ActiveRecord::Schema.define(version: 20161109164821) do
   add_foreign_key "groups", "levels"
   add_foreign_key "groups", "schools"
   add_foreign_key "levels", "schools"
+  add_foreign_key "news", "users"
   add_foreign_key "photos", "albums"
   add_foreign_key "students", "groups"
   add_foreign_key "students", "schools"

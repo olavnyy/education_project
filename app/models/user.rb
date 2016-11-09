@@ -7,12 +7,19 @@ class User < ApplicationRecord
   validates :first_name, presence: true, length: {maximum: 25}
   validates :last_name, presence: true, length: {maximum: 25}
 
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email, presence: true, length: { minimum: 6, maximum: 50 },
+            format: { with: VALID_EMAIL_REGEX },
+            uniqueness: { case_sensitive: false }
+
   phone_regex = /\A\+?\d{3}\s?(\(|)\d{2}(\)|)\s?\d{3}\s?\d{2}\s?\d{2}\s?\z/x
   validates :contact_phone, presence: true,
                   format: { with: phone_regex }
 
   has_attached_file :avatar, styles: { medium: "200x200>", thumb: "70x70>" }, default_url: "http://grdevday.org/wp-content/uploads/2016/02/missing.png"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
+
+  has_many :news
 
   # Limited scope for News and Albums for different type of User
   scope :news_list, ->(user) { News.where(QUERY,

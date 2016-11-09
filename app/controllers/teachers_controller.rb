@@ -13,11 +13,12 @@ class TeachersController < ApplicationController
 
   def create
     @teacher = Teacher.new(teacher_params)
+    @teacher.school_id = @current_user.school_id
     render_content(@teacher.save ? {teacher: @teacher, status: true} : {errors: @teacher.errors, status: false})
   end
 
   def update
-    render_content(@teacher.update_attributes(teacher_params) ? {teacher: @teacher, status: true} : {errors: @teacher.errors, status: false})
+    render_content(@teacher.update_attributes(teacher_update_params) ? {teacher: @teacher, status: true} : {errors: @teacher.errors, status: false})
   end
 
   def destroy
@@ -39,11 +40,19 @@ class TeachersController < ApplicationController
     params
       .require(:teacher)
       .permit(:first_name, :last_name, :email, :contact_phone,
-             :password, :password_confirmation, :school_id, :group_id)
+              :password, :password_confirmation, :school_id, :group_id)
   end
 
   def merge_params
     params[:teacher][:password] = params[:password]
     params[:teacher][:password_confirmation] = params[:password_confirmation]
   end
+
+  def teacher_update_params
+    params
+      .require(:user)
+      .permit(:first_name, :last_name, :email, :contact_phone,
+              :school_id, :group_id)
+  end
+
 end

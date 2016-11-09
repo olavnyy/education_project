@@ -3,7 +3,7 @@ class RequestsController < ApplicationController
   def create
     @request = Request.new(request_params)
       if @request.save
-        # Tell the SrequestMailer to send a welcome email after save
+        # Tell the RequestMailer to send a welcome email after save
         RequestMailer.request_email(@request).deliver_now
         render json: @request
         

@@ -12,8 +12,11 @@ class AlbumsController < ApplicationController
   end
 
   def create
-    @album = Album.new(album_params)
-    render_content(@album.save ? {album: @album, status: true} : {errors: @album.errors, status: false})
+    @album = Album.create(album_params)
+    if params[:photos]
+      @album.photos.create(parse_photos)
+      render_content(@album ? {album: @album, status: true} : {errors: @album.errors, status: false})
+    end
   end
 
   def update
@@ -34,74 +37,13 @@ class AlbumsController < ApplicationController
     @current_user.class.albums_list(@current_user)
   end
 
-  private
-
   def album_params
-    params.require(:album).permit(:title, :image, :imageable_type, :imageable_id, :school_id, photos_attributes: [:photo])
+    params.require(:album).permit(:title, :image, :imageable_type, :imageable_id, :school_id)
   end
 
+  def parse_photos
+    params[:photos].map do |img|
+      { image: decode_base64_image(img) }
+    end
+  end
 end
-
-
-# class AlbumsController < ApplicationController
-#   load_and_authorize_resource
-#
-#   def index
-#     @albums = @current_user.class.albums_list(@current_user)
-#     render json: @albums
-#   end
-#
-#   def show
-#     @album = @current_user.class.albums_list(@current_user).find(params[:id])
-#     @photos = @album.photos
-#     render json: @album
-#     if @album.nil?
-#       @albums = @current_user.class.albums_list(@current_user)
-#       render json: @albums
-#     end
-#   end
-#
-#   def new
-#     @album = @current_user.class.albums_list(@current_user).new
-#   end
-#
-#   def create
-#     @album = @current_user.class.albums_list(@current_user).new(album_params)
-#     if @album.save
-#       render json: @album
-#     else
-#       render json: {
-#         content: 'invalid create'
-#       }
-#     end
-#   end
-#
-#   def edit
-#       @album = @current_user.class.albums_list(@current_user).find(params[:id])
-#       @photos = @album.photos
-#   end
-#
-#   def update
-#     @album = @current_user.class.albums_list(@current_user).find(params[:id])
-#     if @album.update_attributes(album_params)
-#       render json: @album
-#     else
-#       render json: {
-#         content: 'invalid update'
-#       }
-#     end
-#   end
-#
-#   def destroy
-#     @album = @current_user.class.albums_list(@current_user).find(params[:id])
-#     @album.destroy
-#     render json: @albums
-#   end
-#
-#
-#   private
-#   def album_params
-#     params.require(:album).permit(:title, :image, :imageable_type, :imageable_id, :school_id, photos_attributes: [:photo])
-#   end
-#
-# end

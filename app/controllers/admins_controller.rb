@@ -8,7 +8,7 @@ class AdminsController < ApplicationController
   end
 
   def show
-    render_content(Admin.find(params[:id]))
+    render_content(@admin)
   end
 
   def create
@@ -16,8 +16,7 @@ class AdminsController < ApplicationController
   end
 
   def update
-    @admin = Admin.find(params[:id])
-    render_content(@admin) if @admin.update_attributes(admin_params)
+    render_content(@admin.update_attributes(admin_update_params) ? {admin: @admin, status: true} : {errors: @admin.errors, status: false})
   end
 
   def destroy
@@ -38,6 +37,11 @@ class AdminsController < ApplicationController
               :password, :password_confirmation)
   end
 
+  def admin_update_params
+    params
+      .require(:user)
+      .permit(:first_name, :last_name, :email, :school_id, :contact_phone)
+  end
   def merge_params
     params[:admin][:password] = params[:password]
     params[:admin][:password_confirmation] = params[:password_confirmation]
