@@ -17,14 +17,9 @@ class ParentsController < ApplicationController
   end
 
   def create
-    @parent = @current_user.class.parents_list(@current_user).new(parent_params)
-    if @parent.save
-      redirect_to @parent
-    else
-      render json: {
-        content: 'invalid create'
-      }
-    end
+    @parent = Parent.new(parent_params)
+    @parent.school_id = @current_user.school_id
+    render_content(@parent.save ? {parent: @parent, status: true} : {errors: @parent.errors, status: false})
   end
 
   def edit
@@ -52,6 +47,10 @@ class ParentsController < ApplicationController
   end
 
   private
+
+  def parents_list
+    @current_user.type?('Admin') ? @current_user.school.parents : @current_user.parents
+  end
 
   def parent_params
     merge_params

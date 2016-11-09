@@ -1,5 +1,5 @@
 class SchoolMailer < ApplicationMailer
-  default from: 'psrsui197ruby@gmail.com'
+  default from: ENV['PSRS_EMAIL']
  
 	def school_email(school)
       @school = school

@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'psrsui197ruby@gmail.com'
+  default from: ENV['PSRS_EMAIL']
   layout 'mailer'
 end
