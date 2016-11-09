@@ -1,6 +1,5 @@
 class Attendance < ApplicationRecord
   belongs_to :journal
-  belongs_to :student
   has_many :report_times
   accepts_nested_attributes_for :report_times
   validates_associated :report_times
