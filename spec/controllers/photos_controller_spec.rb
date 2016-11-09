@@ -2,6 +2,18 @@ require 'rails_helper'
 
 RSpec.describe PhotosController, type: :controller do
 
+  let!(:users) do
+    FactoryGirl.create_list(:user, 2)
+    User.all
+  end
+
+  let(:current_user) { User.first }
+
+  before do
+   allow(controller).to receive(:authenticate_request!)
+   allow(controller).to receive(:current_user) { current_user }
+ end
+
   before(:each) do
     @album = FactoryGirl.create(:album)
   end
