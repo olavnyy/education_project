@@ -3,7 +3,9 @@ class Group < ApplicationRecord
   belongs_to :level
   has_many :students
   has_one :teacher
-  has_one :journal, dependent: :destroy
+  has_many :daily_report
+  has_many :attendances
+
   has_many :albums, as: :imageable
   has_many :news, as: :viewable
 

@@ -19,7 +19,7 @@ class Ability
   elsif user.type?('Teacher')
       can :read, [Student, Parent, HealthInfo]
       can [:create, :read, :update], [News, Album]
-      can :crud, [Attendance, Journal, ReportTime]
+      can :crud, [Attendance, DailyReport, ReportTime]
 
     # Define abilities for Parent
   elsif user.type?('Parent')

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161105163517) do
+ActiveRecord::Schema.define(version: 20161109164821) do
 
   create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
@@ -25,14 +25,26 @@ ActiveRecord::Schema.define(version: 20161105163517) do
   end
 
   create_table "attendances", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.date     "time"
-    t.boolean  "present",    default: false
-    t.integer  "journal_id"
+    t.boolean  "present",         default: false
+    t.integer  "daily_report_id"
     t.integer  "student_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.index ["journal_id"], name: "index_attendances_on_journal_id", using: :btree
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.date     "time"
+    t.integer  "group_id"
+    t.index ["daily_report_id"], name: "index_attendances_on_daily_report_id", using: :btree
+    t.index ["group_id"], name: "index_attendances_on_group_id", using: :btree
     t.index ["student_id"], name: "index_attendances_on_student_id", using: :btree
+  end
+
+  create_table "daily_reports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "group_id"
+    t.datetime "day"
+    t.integer  "student_id"
+    t.index ["group_id"], name: "index_daily_reports_on_group_id", using: :btree
+    t.index ["student_id"], name: "index_daily_reports_on_student_id", using: :btree
   end
 
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -51,14 +63,6 @@ ActiveRecord::Schema.define(version: 20161105163517) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.integer  "student_id"
-  end
-
-  create_table "journals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "group_id"
-    t.string   "title"
-    t.index ["group_id"], name: "index_journals_on_group_id", using: :btree
   end
 
   create_table "levels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
