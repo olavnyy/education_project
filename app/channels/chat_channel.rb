@@ -4,6 +4,9 @@ class ChatChannel < ApplicationCable::Channel
     # stream_from "chat_#{params[:room]}"
   end
 
+  def unsubscribed
+  end
+
   def receive(data)
     ActionCable.server.broadcast "chat", data
   end

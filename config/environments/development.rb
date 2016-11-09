@@ -49,4 +49,4 @@ Rails.application.configure do
   config.action_cable.allowed_request_origins = ['http://localhost:1111']
 
 end
-Rails.application.config.action_cable.allowed_request_origins = ['http://localhost:1111']
+

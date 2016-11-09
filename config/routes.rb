@@ -20,5 +20,5 @@ Rails.application.routes.draw do
   get 'album/new', to: 'albums#new'
   get '/albums/:id/edit', to: 'albums#edit'
 
-   mount ActionCable.server => '/cable'
+  mount ActionCable.server => '/cable'
 end
