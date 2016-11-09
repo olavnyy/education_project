@@ -14,6 +14,7 @@ class StudentsController < ApplicationController
   def create
     @student = Student.new(student_params)
     add_avatar
+    @student.school_id = @current_user.school_id
     render_content(@student.save ? {student: @student, status: true} : {errors: @student.errors, status: false})
   end
 
