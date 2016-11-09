@@ -19,6 +19,8 @@ class User < ApplicationRecord
   has_attached_file :avatar, styles: { medium: "200x200>", thumb: "70x70>" }, default_url: "http://grdevday.org/wp-content/uploads/2016/02/missing.png"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
+  has_many :news
+
   # Limited scope for News and Albums for different type of User
   scope :news_list, ->(user) { News.where(QUERY,
                                           school_id: user.school_id,
