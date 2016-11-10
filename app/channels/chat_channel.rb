@@ -16,6 +16,9 @@ class ChatChannel < ApplicationCable::Channel
     ActionCable.server.broadcast "chat", data
   end
 
+def speak(message)
+  # ActionCable.server.broadcast 'chat', message: data
+end
   # def send_a_message(message)
   #   # ActionCable.server.broadcast "chat", message
   # end
