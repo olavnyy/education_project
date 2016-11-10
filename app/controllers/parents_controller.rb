@@ -53,7 +53,6 @@ class ParentsController < ApplicationController
       .permit(:first_name, :last_name, :email, :contact_phone,
               :school_id, :student_id)
   end
-end
 
 end
 
