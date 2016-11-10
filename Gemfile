@@ -15,6 +15,7 @@ gem 'active_model_serializers', '~> 0.8.3'
 gem 'rails-controller-testing'
 gem 'rack-cors'
 gem 'redis'
+gem 'actioncable'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
