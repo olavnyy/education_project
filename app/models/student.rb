@@ -11,6 +11,8 @@ class Student < ApplicationRecord
 
   has_many :daily_reports, dependent: :destroy
   has_many :attendances, dependent: :destroy
+  has_many :my_days, dependent: :destroy
+  has_many :our_days, dependent: :destroy
 
   validates :first_name, presence: true,
                          length: { maximum: 15 }
