@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161109170548) do
+ActiveRecord::Schema.define(version: 20161115190416) do
 
   create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
@@ -73,6 +73,16 @@ ActiveRecord::Schema.define(version: 20161109170548) do
     t.index ["school_id"], name: "index_levels_on_school_id", using: :btree
   end
 
+  create_table "my_days", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.text     "description",     limit: 65535
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.integer  "student_id"
+    t.integer  "daily_report_id"
+    t.index ["daily_report_id"], name: "index_my_days_on_daily_report_id", using: :btree
+    t.index ["student_id"], name: "index_my_days_on_student_id", using: :btree
+  end
+
   create_table "news", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
     t.text     "description",        limit: 65535
@@ -87,6 +97,18 @@ ActiveRecord::Schema.define(version: 20161109170548) do
     t.integer  "user_id"
     t.index ["imageable_type", "imageable_id"], name: "index_news_on_imageable_type_and_imageable_id", using: :btree
     t.index ["user_id"], name: "index_news_on_user_id", using: :btree
+  end
+
+  create_table "our_days", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.text     "description",     limit: 65535
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.integer  "student_id"
+    t.integer  "group_id"
+    t.integer  "daily_report_id"
+    t.index ["daily_report_id"], name: "index_our_days_on_daily_report_id", using: :btree
+    t.index ["group_id"], name: "index_our_days_on_group_id", using: :btree
+    t.index ["student_id"], name: "index_our_days_on_student_id", using: :btree
   end
 
   create_table "photos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -188,7 +210,12 @@ ActiveRecord::Schema.define(version: 20161109170548) do
   add_foreign_key "groups", "levels"
   add_foreign_key "groups", "schools"
   add_foreign_key "levels", "schools"
+  add_foreign_key "my_days", "daily_reports"
+  add_foreign_key "my_days", "students"
   add_foreign_key "news", "users"
+  add_foreign_key "our_days", "daily_reports"
+  add_foreign_key "our_days", "groups"
+  add_foreign_key "our_days", "students"
   add_foreign_key "photos", "albums"
   add_foreign_key "students", "groups"
   add_foreign_key "students", "schools"

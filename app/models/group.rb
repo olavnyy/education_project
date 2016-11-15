@@ -5,6 +5,7 @@ class Group < ApplicationRecord
   has_one :teacher
   has_many :daily_report
   has_many :attendances
+  has_many :our_days, dependent: :destroy
 
   has_many :albums, as: :imageable
   has_many :news, as: :viewable
