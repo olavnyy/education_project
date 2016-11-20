@@ -13,17 +13,17 @@ class Ability
   elsif user.type?('Admin')
       can [:read, :update], School
       can :crud, [Group, Level, Student, Teacher,
-                  Parent, News, Album, HealthInfo]
+                  Parent, News, Album, HealthInfo, MyDay, OurDay]
 
     # Define abilities for Teacher
   elsif user.type?('Teacher')
       can :read, [Student, Parent, HealthInfo]
       can [:create, :read, :update], [News, Album]
-      can :crud, [Attendance, DailyReport, ReportTime]
+      can :crud, [Attendance, DailyReport, ReportTime, MyDay, OurDay]
 
     # Define abilities for Parent
   elsif user.type?('Parent')
-      can :read, [Student, Parent, HealthInfo, News, Album]
+      can :read, [Student, Parent, HealthInfo, News, Album, MyDay, OurDay]
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161115205920) do
+ActiveRecord::Schema.define(version: 20161120094013) do
 
   create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
@@ -117,7 +117,11 @@ ActiveRecord::Schema.define(version: 20161115205920) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.integer  "my_day_id"
+    t.integer  "our_day_id"
     t.index ["album_id"], name: "index_photos_on_album_id", using: :btree
+    t.index ["my_day_id"], name: "index_photos_on_my_day_id", using: :btree
+    t.index ["our_day_id"], name: "index_photos_on_our_day_id", using: :btree
   end
 
   create_table "report_times", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -214,6 +218,8 @@ ActiveRecord::Schema.define(version: 20161115205920) do
   add_foreign_key "our_days", "daily_reports"
   add_foreign_key "our_days", "groups"
   add_foreign_key "photos", "albums"
+  add_foreign_key "photos", "my_days"
+  add_foreign_key "photos", "our_days"
   add_foreign_key "students", "groups"
   add_foreign_key "students", "schools"
   add_foreign_key "users", "groups"
