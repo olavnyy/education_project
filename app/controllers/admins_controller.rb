@@ -43,6 +43,7 @@ class AdminsController < ApplicationController
       .require(:user)
       .permit(:first_name, :last_name, :email, :school_id, :contact_phone)
   end
+
   def merge_params
     params[:admin][:password] = params[:password]
     params[:admin][:password_confirmation] = params[:password_confirmation]

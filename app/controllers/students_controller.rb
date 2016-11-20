@@ -56,8 +56,13 @@ class StudentsController < ApplicationController
   end
 
   def student_params
+    merge_params
     params
       .require(:student)
       .permit(:first_name, :last_name, :group_id, :school_id, :age, :avatar)
+  end
+
+  def merge_params
+    params[:student][:health_info] = params[:health_info]
   end
 end
