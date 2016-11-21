@@ -1,16 +1,19 @@
 class AttendancesController < ApplicationController
   load_and_authorize_resource
   before_action :set_attendance, only: [:show, :update]
+  before_action :set_attendances, only: [:index]
+  # after_action :update_time
+
   def index
-    render_content(current_attendances)
+    render_content(@attendances)
   end
 
   def show
     render_content(@attendance)
   end
 
-
   def update
+    update_time(params)
     if check_for_report_times(params[:id])
       @report_time = ReportTime.where(attendance_id: params[:id]).last
     else
@@ -30,13 +33,8 @@ class AttendancesController < ApplicationController
     attendance_params_update = {
         present:  attendance_params[:present]
     }
-
     render_content(@attendance.update_attributes(attendance_params_update) ? {attendance: @attendance, status: true} : {errors: @attendance.errors, status: false})
   end
-
-  # def destroy
-  #   render_content({status: (@attendance && @attendance.destroy ? true : false)})
-  # end
 
   private
 
@@ -44,17 +42,21 @@ class AttendancesController < ApplicationController
     @attendance = attendances_list.find_by(id: params[:id])
   end
 
-  def current_attendances
-    attendances_list.where(time: server_day)
+  def set_attendances
+    @attendances = []
+    @current_user.students.each do |student|
+      @attendances << student.attendances.find_or_create_by(time: server_day, group: student.group)
+    end
   end
+
+  # update/create time for current attendance
+  # def update_time(params)
+  #
+  # end
 
   def attendances_list
     @current_user.type?('Teacher') ? @current_user.group.attendances : @current_user.attendances
   end
-
-  # def check_for_existance
-  #   attendances_list.find_by(time: server_day)
-  # end
 
   def check_for_report_times(id)
     ReportTime.find_by(attendance_id: id)

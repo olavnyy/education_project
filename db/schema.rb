@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161115205920) do
+ActiveRecord::Schema.define(version: 20161114112712) do
 
   create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20161115205920) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "group_id"
-    t.datetime "day"
+    t.date     "day"
     t.integer  "student_id"
     t.index ["group_id"], name: "index_daily_reports_on_group_id", using: :btree
     t.index ["student_id"], name: "index_daily_reports_on_student_id", using: :btree
