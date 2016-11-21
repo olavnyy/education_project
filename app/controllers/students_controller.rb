@@ -16,6 +16,7 @@ class StudentsController < ApplicationController
     @student = Student.new(student_params)
     add_avatar
     @student.school_id = @current_user.school_id
+    binding.pry
     render_content(@student.save ? {student: @student, status: true} : {errors: @student.errors, status: false})
   end
 
@@ -56,13 +57,8 @@ class StudentsController < ApplicationController
   end
 
   def student_params
-    merge_params
     params
       .require(:student)
       .permit(:first_name, :last_name, :group_id, :school_id, :age, :avatar)
-  end
-
-  def merge_params
-    params[:student][:health_info] = params[:health_info]
   end
 end

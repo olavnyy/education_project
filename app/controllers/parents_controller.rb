@@ -55,4 +55,3 @@ class ParentsController < ApplicationController
   end
 
 end
-
