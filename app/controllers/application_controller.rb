@@ -55,4 +55,14 @@ class ApplicationController < ActionController::API
   def user_not_authorized
       render status: 403
   end
+
+  def server_day
+    t = Time.now
+    t.strftime("%Y-%m-%d")
+  end
+
+  def server_time
+    t = Time.now
+    t.strftime("%H:%M:%S")
+  end
 end
