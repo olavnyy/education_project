@@ -13,6 +13,7 @@ class AttendancesController < ApplicationController
 
   def update
     update_time(params)
+    set_attendance
     render_content(@attendance)
   end
 
@@ -30,36 +31,17 @@ class AttendancesController < ApplicationController
   end
 
   def update_time(params)
-    puts 'hello'
-    if params[:present] and exists_report_time(params[:id])
+    if !params[:present] and exists_report_time(params[:id])
       @report_time = ReportTime.where(attendance_id: params[:id]).last
-      @report_time[:end] = server_time if server_time > @report_time[:start]
-      report_time_update[:end] = server_time
-      @report_time.update_attributes(report_time_update)
+      @report_time.update_attributes(end: server_time) if server_time > @report_time[:start]
     else
       @report_time = ReportTime.new
-      @report_time.start = server_day
+      @report_time.start = server_time
       @report_time.attendance_id = params[:id]
       @report_time.save
     end
     @attendance.update_attributes(present: params[:present])
   end
-
-  # # report_time_update = {}
-  # if params[:present] and exists_report_time(params[:id])
-  #   @report_time = ReportTime.where(attendance_id: params[:id]).last
-  #   @report_time[:end] = server_time if server_time > @report_time[:start]
-  #   report_time_update[:end] = server_time
-  #   @report_time.update_attributes(report_time_update)
-  # else
-  #   # @report_time = ReportTime.new
-  #   # @report_time = {
-  #   #     start: server_day,
-  #   #     attendance_id: params[:id]
-  #   # }
-  #   # @report_time.save
-  # end
-  # @attendance.update_attributes(present: params[:present])
 
   def attendances_list
     @current_user.type?('Teacher') ? @current_user.group.attendances : @current_user.attendances
