@@ -4,7 +4,7 @@ class SchoolsController < ApplicationController
   before_action :set_school, only: [:show, :update, :destroy]
 
   def index
-    render_content(School.all)
+    render_content(schools_list)
   end
 
   def show
@@ -30,6 +30,10 @@ class SchoolsController < ApplicationController
 
   def set_school
     @school = School.find(params[:id])
+  end
+
+  def schools_list
+    @current_user.type?('Superadmin') ? School.all : @current_user.school
   end
 
   def school_params

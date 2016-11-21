@@ -10,19 +10,19 @@ class Ability
       can :manage, [Admin, School]
 
     # Define abilities for Admin
-  elsif user.type?('Admin')
+    elsif user.type?('Admin')
       can [:read, :update], School
       can :crud, [Group, Level, Student, Teacher,
                   Parent, News, Album, HealthInfo]
 
     # Define abilities for Teacher
-  elsif user.type?('Teacher')
+    elsif user.type?('Teacher')
       can :read, [Student, Parent, HealthInfo]
       can [:create, :read, :update], [News, Album]
       can :crud, [Attendance, DailyReport, ReportTime]
 
     # Define abilities for Parent
-  elsif user.type?('Parent')
+    elsif user.type?('Parent')
       can :read, [Student, Parent, HealthInfo, News, Album]
     end
   end
