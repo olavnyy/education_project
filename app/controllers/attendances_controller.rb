@@ -3,6 +3,7 @@ class AttendancesController < ApplicationController
   before_action :set_attendance, only: [:show, :update]
   before_action :all_attendances, only: [:index]
 
+
   def index
     render_content(@attendances)
   end
@@ -47,7 +48,7 @@ class AttendancesController < ApplicationController
     @current_user.type?('Teacher') ? @current_user.group.attendances : @current_user.attendances
   end
 
-  def exists_report_time(id)
+  def check_for_report_times(id)
     ReportTime.find_by(attendance_id: id)
   end
 
