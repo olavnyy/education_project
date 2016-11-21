@@ -2,9 +2,10 @@ class AttendancesController < ApplicationController
   load_and_authorize_resource
   before_action :set_attendance, only: [:show, :update]
   before_action :set_attendances, only: [:index]
+  # after_action :update_time
 
   def index
-    @attendances
+    render_content(@attendances)
   end
 
   def show
@@ -12,6 +13,7 @@ class AttendancesController < ApplicationController
   end
 
   def update
+    update_time(params)
     if check_for_report_times(params[:id])
       @report_time = ReportTime.where(attendance_id: params[:id]).last
     else
@@ -31,7 +33,6 @@ class AttendancesController < ApplicationController
     attendance_params_update = {
         present:  attendance_params[:present]
     }
-
     render_content(@attendance.update_attributes(attendance_params_update) ? {attendance: @attendance, status: true} : {errors: @attendance.errors, status: false})
   end
 
@@ -47,6 +48,11 @@ class AttendancesController < ApplicationController
       @attendances << student.attendances.find_or_create_by(time: server_day, group: student.group)
     end
   end
+
+  # update/create time for current attendance
+  # def update_time(params)
+  #
+  # end
 
   def attendances_list
     @current_user.type?('Teacher') ? @current_user.group.attendances : @current_user.attendances
