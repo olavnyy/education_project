@@ -48,7 +48,7 @@ class AttendancesController < ApplicationController
     @current_user.type?('Teacher') ? @current_user.group.attendances : @current_user.attendances
   end
 
-  def check_for_report_times(id)
+  def exists_report_time(id)
     ReportTime.find_by(attendance_id: id)
   end
 
