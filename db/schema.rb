@@ -109,6 +109,13 @@ ActiveRecord::Schema.define(version: 20161114112712) do
     t.index ["group_id"], name: "index_our_days_on_group_id", using: :btree
   end
 
+  create_table "parents_students", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "user_id",    null: false
+    t.integer "student_id", null: false
+    t.index ["student_id"], name: "index_parents_students_on_student_id", using: :btree
+    t.index ["user_id"], name: "index_parents_students_on_user_id", using: :btree
+  end
+
   create_table "photos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "album_id"
     t.datetime "created_at",         null: false
@@ -166,13 +173,6 @@ ActiveRecord::Schema.define(version: 20161114112712) do
     t.datetime "avatar_updated_at"
     t.index ["group_id"], name: "index_students_on_group_id", using: :btree
     t.index ["school_id"], name: "index_students_on_school_id", using: :btree
-  end
-
-  create_table "students_users", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "student_id"
-    t.integer "parent_id"
-    t.index ["parent_id"], name: "index_students_users_on_parent_id", using: :btree
-    t.index ["student_id"], name: "index_students_users_on_student_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
