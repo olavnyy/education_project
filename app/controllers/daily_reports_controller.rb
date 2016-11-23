@@ -21,11 +21,11 @@ class DailyReportsController < ApplicationController
   private
 
   def set_daily_report
-    @daily_report = daily_reports_list.fing_by(id: params[:id])
+    @daily_report = daily_reports_list.find_by(student_id: params[:student_id], day: server_day)
   end
 
   def daily_reports_list
-    @current_user.type?('Teacher') ? @current_user.group.daily_report : @current_user.daily_report
+    @current_user.type?('Teacher') ? @current_user.group.daily_report.where(day: server_day) : @current_user.daily_report
   end
 
   def daily_report_params
