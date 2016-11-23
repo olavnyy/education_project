@@ -1,4 +1,4 @@
 class DailyReportSerializer < ActiveModel::Serializer
-  attributes :id, :title
-  has_many :attendances
+  attributes :id
+  has_one :attendance
 end
