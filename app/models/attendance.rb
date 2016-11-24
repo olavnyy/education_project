@@ -10,7 +10,9 @@ class Attendance < ApplicationRecord
 
   private
   def generate_daily_report
-    daily_report || self.create_daily_report(group: group, day: time, student: student)
+    a = daily_report || self.create_daily_report(group: group, day: time, student: student)
+    a.my_day || a.create_my_day(day: time, student: student, group: group)
+    a.our_day || a.create_our_day(day: time, group: group)
   end
 end
 

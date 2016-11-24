@@ -1,5 +1,5 @@
 class PhotoSerializer < ActiveModel::Serializer
-  attributes :id, :album_id, :image, :image_url_medium, :image_url_thumb, :image_url_large
+  attributes :id, :album_id, :image, :image_url_medium, :image_url_thumb, :image_url_large, :my_day_id, :our_day_id
   has_one :album
 
   def image_url_medium
