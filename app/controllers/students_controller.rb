@@ -14,12 +14,14 @@ class StudentsController < ApplicationController
   def create
     @student = Student.new(student_params)
     add_avatar
+    binding.pry
     @student.school_id = @current_user.school_id
     render_content(@student.save ? {student: @student, status: true} : {errors: @student.errors, status: false})
   end
 
   def update
-    add_avatar
+    update_avatar
+    binding.pry
     render_content(@student.update_attributes(student_params) ? {student: @student, status: true} : {errors: @student.errors, status: false})
   end
 
@@ -41,9 +43,13 @@ class StudentsController < ApplicationController
     @student.avatar = decode_base64_image(params[:avatar]) if params[:avatar] && @student
   end
 
+  def update_avatar
+    @student.avatar = decode_base64_image(params[:student][:avatar]) if params[:student][:avatar] && @student
+  end
+
   def student_params
     params
       .require(:student)
-      .permit(:first_name, :last_name, :group_id, :school_id, :age, :avatar)
+      .permit(:first_name, :last_name, :group_id, :school_id, :age, :avatar, :health_info)
   end
 end
