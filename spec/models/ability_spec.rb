@@ -11,10 +11,10 @@ RSpec.describe User, type: :model do
         @school = School.new
       end
       it 'can manage School' do
-        expect(@ability).to be_able_to(:manage, @school)
+        expect(@ability).to be_able_to(:crud, @school)
       end
       it 'can manage Admin' do
-        expect(@ability).to be_able_to(:manage, @admin)
+        expect(@ability).to be_able_to(:crud, @admin)
       end
     end
 
