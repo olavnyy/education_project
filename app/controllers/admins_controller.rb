@@ -13,10 +13,12 @@ class AdminsController < ApplicationController
 
   def create
     @admin = Admin.new(admin_params)
+    add_avatar
     render_content(@admin.save ? {admin: @admin, status: true} : {errors: @admin.errors, status: false})
   end
 
   def update
+    update_avatar
     render_content(@admin.update_attributes(admin_update_params) ? {admin: @admin, status: true} : {errors: @admin.errors, status: false})
   end
 
@@ -28,6 +30,14 @@ class AdminsController < ApplicationController
 
   def set_admin
     @admin = Admin.find(params[:id])
+  end
+
+  def add_avatar
+    @admin.avatar = decode_base64_image(params[:avatar]) if params[:avatar]
+  end
+
+  def update_avatar
+    @admin.avatar = decode_base64_image(params[:user][:avatar]) if params[:user][:avatar]
   end
 
   def admin_params
@@ -43,6 +53,7 @@ class AdminsController < ApplicationController
       .require(:user)
       .permit(:first_name, :last_name, :email, :school_id, :contact_phone)
   end
+
   def merge_params
     params[:admin][:password] = params[:password]
     params[:admin][:password_confirmation] = params[:password_confirmation]
