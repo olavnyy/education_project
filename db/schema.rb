@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161114112712) do
+ActiveRecord::Schema.define(version: 20161123143429) do
 
   create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
@@ -27,11 +27,11 @@ ActiveRecord::Schema.define(version: 20161114112712) do
   create_table "attendances", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "time"
     t.boolean  "present",         default: false
-    t.integer  "daily_report_id"
-    t.integer  "student_id"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.integer  "student_id"
     t.integer  "group_id"
+    t.integer  "daily_report_id"
     t.index ["daily_report_id"], name: "index_attendances_on_daily_report_id", using: :btree
     t.index ["group_id"], name: "index_attendances_on_group_id", using: :btree
     t.index ["student_id"], name: "index_attendances_on_student_id", using: :btree
@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(version: 20161114112712) do
   create_table "daily_reports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "group_id"
     t.date     "day"
+    t.integer  "group_id"
     t.integer  "student_id"
     t.index ["group_id"], name: "index_daily_reports_on_group_id", using: :btree
     t.index ["student_id"], name: "index_daily_reports_on_student_id", using: :btree
@@ -205,6 +205,11 @@ ActiveRecord::Schema.define(version: 20161114112712) do
   end
 
   add_foreign_key "albums", "schools"
+  add_foreign_key "attendances", "daily_reports"
+  add_foreign_key "attendances", "groups"
+  add_foreign_key "attendances", "students"
+  add_foreign_key "daily_reports", "groups"
+  add_foreign_key "daily_reports", "students"
   add_foreign_key "groups", "levels"
   add_foreign_key "groups", "schools"
   add_foreign_key "levels", "schools"
