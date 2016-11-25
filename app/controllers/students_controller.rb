@@ -2,6 +2,7 @@
 class StudentsController < ApplicationController
   load_and_authorize_resource
   before_action :set_student, only: [:show, :update, :destroy]
+  after_action :set_parents, only: [:create, :update]
 
   def index
     render_content(students_list)
@@ -15,6 +16,7 @@ class StudentsController < ApplicationController
     @student = Student.new(student_params)
     add_avatar
     @student.school_id = @current_user.school_id
+    binding.pry
     render_content(@student.save ? {student: @student, status: true} : {errors: @student.errors, status: false})
   end
 
@@ -39,6 +41,19 @@ class StudentsController < ApplicationController
 
   def add_avatar
     @student.avatar = decode_base64_image(params[:avatar]) if params[:avatar] && @student
+  end
+
+  def set_parents
+    if params[:parents][:first]
+      @parentFirstId = params[:parents][:first][:id]
+      @parentFirst = Parent.find_by(id: @parentFirstId)
+      @student.parents << @parentFirst
+    end
+    if params[:parents][:second]
+      @parentSecondId = params[:parents][:second][:id]
+      @parentSecond = Parent.find_by(id: @parentSecondId)
+      @student.parents << @parentSecond
+    end
   end
 
   def student_params
