@@ -7,7 +7,7 @@ class Ability
 
     # Define abilities for Superadmin
     if user.type?('Superadmin')
-      can :manage, [Admin, School]
+      can :crud, [Admin, School]
 
     # Define abilities for Admin
     elsif user.type?('Admin')
