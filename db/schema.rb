@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161123143429) do
+ActiveRecord::Schema.define(version: 20161126144218) do
 
   create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20161123143429) do
     t.date     "day"
     t.integer  "group_id"
     t.integer  "student_id"
+    t.boolean  "sended"
     t.index ["group_id"], name: "index_daily_reports_on_group_id", using: :btree
     t.index ["student_id"], name: "index_daily_reports_on_student_id", using: :btree
   end
@@ -63,7 +64,6 @@ ActiveRecord::Schema.define(version: 20161123143429) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.integer  "student_id"
-    t.index ["student_id"], name: "index_health_infos_on_student_id", using: :btree
   end
 
   create_table "levels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -213,7 +213,6 @@ ActiveRecord::Schema.define(version: 20161123143429) do
   add_foreign_key "daily_reports", "students"
   add_foreign_key "groups", "levels"
   add_foreign_key "groups", "schools"
-  add_foreign_key "health_infos", "students"
   add_foreign_key "levels", "schools"
   add_foreign_key "my_days", "daily_reports"
   add_foreign_key "my_days", "students"
