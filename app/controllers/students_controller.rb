@@ -13,13 +13,15 @@ class StudentsController < ApplicationController
 
   def create
     @student = Student.new(student_params)
-    add_avatar
-    @student.school_id = @current_user.school_id
+    add_avatar_and_health_info
+    set_parents
+    @student.write_attribute(:school_id, @current_user.school_id)
     render_content(@student.save ? {student: @student, status: true} : {errors: @student.errors, status: false})
   end
 
   def update
-    add_avatar
+    update_avatar_and_health_info
+    binding.pry
     render_content(@student.update_attributes(student_params) ? {student: @student, status: true} : {errors: @student.errors, status: false})
   end
 
@@ -37,13 +39,40 @@ class StudentsController < ApplicationController
     @current_user.type?('Admin') ? @current_user.school.students : @current_user.students
   end
 
-  def add_avatar
+  def add_avatar_and_health_info
     @student.avatar = decode_base64_image(params[:avatar]) if params[:avatar] && @student
+    if  params[:health_info]
+      @student.health_info = HealthInfo.new
+      @student.health_info.description = params[:health_info][:description]
+      @student.health_info.health_problem = params[:health_info][:health_problem]
+    end
   end
+
+  def update_avatar_and_health_info
+    @student.avatar = decode_base64_image(params[:student][:avatar]) if params[:student][:avatar] && @student
+    if  params[:student][:health_info]
+      @student.health_info ||= HealthInfo.new
+      @student.health_info.description = params[:student][:health_info][:description]
+      @student.health_info.health_problem = params[:student][:health_info][:health_problem]
+    end
+  end
+
+  def set_parents
+    if params[:parents][:first]
+      @parentFirstId = params[:parents][:first][:id]
+      @student.parents << Parent.find_by(id: @parentFirstId)
+    end
+    if params[:parents][:second]
+      @parentSecondId = params[:parents][:second][:id]
+      @student.parents << Parent.find_by(id: @parentSecondId)
+    end
+  end
+
 
   def student_params
     params
       .require(:student)
-      .permit(:first_name, :last_name, :group_id, :school_id, :age, :avatar)
+      .permit(:first_name, :last_name, :group_id, :school_id, :age, :avatar,
+              :health_info)
   end
 end
