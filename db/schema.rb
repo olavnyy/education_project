@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20161123143429) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.integer  "student_id"
+    t.index ["student_id"], name: "index_health_infos_on_student_id", using: :btree
   end
 
   create_table "levels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -107,13 +108,6 @@ ActiveRecord::Schema.define(version: 20161123143429) do
     t.integer  "daily_report_id"
     t.index ["daily_report_id"], name: "index_our_days_on_daily_report_id", using: :btree
     t.index ["group_id"], name: "index_our_days_on_group_id", using: :btree
-  end
-
-  create_table "parents_students", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "user_id",    null: false
-    t.integer "student_id", null: false
-    t.index ["student_id"], name: "index_parents_students_on_student_id", using: :btree
-    t.index ["user_id"], name: "index_parents_students_on_user_id", using: :btree
   end
 
   create_table "photos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -175,6 +169,13 @@ ActiveRecord::Schema.define(version: 20161123143429) do
     t.index ["school_id"], name: "index_students_on_school_id", using: :btree
   end
 
+  create_table "students_users", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "student_id"
+    t.integer "parent_id"
+    t.index ["parent_id"], name: "index_students_users_on_parent_id", using: :btree
+    t.index ["student_id"], name: "index_students_users_on_student_id", using: :btree
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -212,6 +213,7 @@ ActiveRecord::Schema.define(version: 20161123143429) do
   add_foreign_key "daily_reports", "students"
   add_foreign_key "groups", "levels"
   add_foreign_key "groups", "schools"
+  add_foreign_key "health_infos", "students"
   add_foreign_key "levels", "schools"
   add_foreign_key "my_days", "daily_reports"
   add_foreign_key "my_days", "students"
