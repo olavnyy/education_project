@@ -21,7 +21,6 @@ class StudentsController < ApplicationController
 
   def update
     update_avatar_and_health_info
-    binding.pry
     render_content(@student.update_attributes(student_params) ? {student: @student, status: true} : {errors: @student.errors, status: false})
   end
 
