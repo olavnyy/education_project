@@ -4,7 +4,7 @@ class RequestsController < ApplicationController
     @request = Request.new(request_params)
       if @request.save
         # Tell the RequestMailer to send a welcome email after save
-        RequestMailer.request_email(@request).deliver_now
+        RequestMailer.request_email(@request).deliver_later
         render json: @request
         
       else

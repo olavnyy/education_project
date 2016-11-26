@@ -12,11 +12,14 @@ class ParentsController < ApplicationController
 
   def create
     @parent = Parent.new(parent_params)
+    add_avatar
     @parent.school_id = @current_user.school_id
     render_content(@parent.save ? {parent: @parent, status: true} : {errors: @parent.errors, status: false})
+    ParentMailer.parent_email(@parent).deliver_later
   end
 
   def update
+    add_avatar
     render_content(@parent.update_attributes(parent_update_params) ? {parent: @parent, status: true} : {errors: @parent.errors, status: false})
   end
 
@@ -25,6 +28,10 @@ class ParentsController < ApplicationController
   end
 
   private
+
+  def add_avatar
+    @parent.avatar = decode_base64_image(params[:avatar]) if params[:avatar] && @parent
+  end
 
   def set_parent
     @parent = parents_list.find_by(id: params[:id])
@@ -39,7 +46,7 @@ class ParentsController < ApplicationController
     params
       .require(:parent)
       .permit(:first_name, :last_name, :email, :contact_phone,
-              :password, :password_confirmation, :school_id, :student_id)
+              :password, :password_confirmation, :school_id, :avatar)
   end
 
   def merge_params
@@ -51,7 +58,7 @@ class ParentsController < ApplicationController
     params
       .require(:user)
       .permit(:first_name, :last_name, :email, :contact_phone,
-              :school_id, :student_id)
+              :school_id, :avatar)
   end
 
 end

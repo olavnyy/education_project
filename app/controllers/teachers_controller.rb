@@ -13,11 +13,14 @@ class TeachersController < ApplicationController
 
   def create
     @teacher = Teacher.new(teacher_params)
+    add_avatar
     @teacher.school_id = @current_user.school_id
     render_content(@teacher.save ? {teacher: @teacher, status: true} : {errors: @teacher.errors, status: false})
+    TeacherMailer.teacher_email(@teacher).deliver_later
   end
 
   def update
+    add_avatar
     render_content(@teacher.update_attributes(teacher_update_params) ? {teacher: @teacher, status: true} : {errors: @teacher.errors, status: false})
   end
 
@@ -26,6 +29,10 @@ class TeachersController < ApplicationController
   end
 
   private
+  
+  def add_avatar
+    @teacher.avatar = decode_base64_image(params[:avatar]) if params[:avatar] && @teacher
+  end
 
   def set_teacher
     @teacher = teachers_list.find_by(id: params[:id])
@@ -40,7 +47,7 @@ class TeachersController < ApplicationController
     params
       .require(:teacher)
       .permit(:first_name, :last_name, :email, :contact_phone,
-              :password, :password_confirmation, :school_id, :group_id)
+              :password, :password_confirmation, :school_id, :group_id, :avatar)
   end
 
   def merge_params
@@ -52,7 +59,7 @@ class TeachersController < ApplicationController
     params
       .require(:user)
       .permit(:first_name, :last_name, :email, :contact_phone,
-              :school_id, :group_id)
+              :school_id, :group_id, :avatar)
   end
 
 end
