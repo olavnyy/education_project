@@ -63,7 +63,6 @@ ActiveRecord::Schema.define(version: 20161123143429) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.integer  "student_id"
-    t.index ["student_id"], name: "index_health_infos_on_student_id", using: :btree
   end
 
   create_table "levels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -213,7 +212,6 @@ ActiveRecord::Schema.define(version: 20161123143429) do
   add_foreign_key "daily_reports", "students"
   add_foreign_key "groups", "levels"
   add_foreign_key "groups", "schools"
-  add_foreign_key "health_infos", "students"
   add_foreign_key "levels", "schools"
   add_foreign_key "my_days", "daily_reports"
   add_foreign_key "my_days", "students"

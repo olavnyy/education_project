@@ -20,7 +20,7 @@ class TeachersController < ApplicationController
   end
 
   def update
-    add_avatar
+    update_avatar
     render_content(@teacher.update_attributes(teacher_update_params) ? {teacher: @teacher, status: true} : {errors: @teacher.errors, status: false})
   end
 
@@ -32,6 +32,10 @@ class TeachersController < ApplicationController
   
   def add_avatar
     @teacher.avatar = decode_base64_image(params[:avatar]) if params[:avatar] && @teacher
+  end
+
+  def update_avatar
+    @teacher.avatar = decode_base64_image(params[:teacher][:avatar]) if params[:teacher][:avatar] && @teacher
   end
 
   def set_teacher

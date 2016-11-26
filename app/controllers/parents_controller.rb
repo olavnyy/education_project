@@ -19,7 +19,7 @@ class ParentsController < ApplicationController
   end
 
   def update
-    add_avatar
+    update_avatar
     render_content(@parent.update_attributes(parent_update_params) ? {parent: @parent, status: true} : {errors: @parent.errors, status: false})
   end
 
@@ -31,6 +31,10 @@ class ParentsController < ApplicationController
 
   def add_avatar
     @parent.avatar = decode_base64_image(params[:avatar]) if params[:avatar] && @parent
+  end
+
+  def update_avatar
+    @parent.avatar = decode_base64_image(params[:parent][:avatar]) if params[:parent][:avatar] && @parent
   end
 
   def set_parent
