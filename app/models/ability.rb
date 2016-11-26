@@ -23,7 +23,7 @@ class Ability
 
     # Define abilities for Parent
     elsif user.type?('Parent')
-      can :read, [Student, Parent, HealthInfo, News, Album]
+      can :read, [Student, Parent, HealthInfo, News, Album, DailyReport]
     end
   end
 end
