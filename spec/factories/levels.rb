@@ -3,9 +3,6 @@ FactoryGirl.define do
     sequence :name do |n|
       "level_#{n}"
     end
-  end
-
-  factory :invalid_level, parent: :level do
-    name "asodfknaosdnfosadnfo"
+    sequence(:school_id) {|n| n}
   end
 end
