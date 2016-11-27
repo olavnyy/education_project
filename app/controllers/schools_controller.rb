@@ -13,8 +13,8 @@ class SchoolsController < ApplicationController
 
   def create
     @school = School.new(school_params)
-    SchoolMailer.school_email(@school).deliver_now
     render_content(@school.save ? {admin: @admin, status: true} : {errors: @admin.errors, status: false})
+    SchoolMailer.school_email(@school).deliver_later
   end
 
   def update
