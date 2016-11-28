@@ -7,23 +7,23 @@ class Ability
 
     # Define abilities for Superadmin
     if user.type?('Superadmin')
-      can :manage, [Admin, School]
+      can :crud, [Admin, School]
 
     # Define abilities for Admin
-  elsif user.type?('Admin')
+    elsif user.type?('Admin')
       can [:read, :update], School
       can :crud, [Group, Level, Student, Teacher,
                   Parent, News, Album, HealthInfo]
 
     # Define abilities for Teacher
-  elsif user.type?('Teacher')
+    elsif user.type?('Teacher')
       can :read, [Student, Parent, HealthInfo]
       can [:create, :read, :update], [News, Album]
       can :crud, [Attendance, DailyReport, ReportTime, MyDay, OurDay]
 
     # Define abilities for Parent
-  elsif user.type?('Parent')
-      can :read, [Student, Parent, HealthInfo, News, Album]
+    elsif user.type?('Parent')
+      can :read, [Student, Parent, HealthInfo, News, Album, DailyReport]
     end
   end
 end

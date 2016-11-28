@@ -5,6 +5,8 @@ class StudentSerializer < ActiveModel::Serializer
 
   has_one :health_info
   has_many :my_days
+  has_many :parents
+
 
   def avatar_url_medium
    object.avatar.url(:medium)

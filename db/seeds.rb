@@ -44,8 +44,7 @@ end
   FactoryGirl.create(:health_info)
 end
 
-3.times do |n|
+5.times do |n|
 	FactoryGirl.create(:parent)
   FactoryGirl.create(:teacher)
 end
-

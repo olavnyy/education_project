@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.avatar = decode_base64_image(params[:avatar]) if params[:avatar]
+    @user.avatar = Paperclip.io_adapters.for(params[:avatar]) if params[:avatar]
     render_content(@user.update_attributes(user_update_params) ? (@user) : {errors: @user.errors, status: false})
   end
 
