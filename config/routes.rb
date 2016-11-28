@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   resources :admins, defaults: { format: 'json' }
   resources :daily_reports, defaults: { format: 'json' }
   resources :attendances, defaults: { format: 'json' }
+  resources :my_days, defaults: { format: 'json' }
+  resources :our_days, defaults: { format: 'json' }
 
   resources :requests, defaults: { format: 'json' }
 # Routes for photoalbums

@@ -10,11 +10,11 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { minimum: 6, maximum: 50 },
             format: { with: VALID_EMAIL_REGEX },
-            uniqueness: { case_sensitive: false }
+            uniqueness: { case_sensitive: false, scope: :school_id }
 
-  phone_regex = /\A\+?\d{3}\s?(\(|)\d{2}(\)|)\s?\d{3}\s?\d{2}\s?\d{2}\s?\z/x
+  PHONE_REGEX = /\A\+?\d{3}\s?(\(|)\d{2}(\)|)\s?\d{3}\s?\d{2}\s?\d{2}\s?\z/x
   validates :contact_phone, presence: true,
-                  format: { with: phone_regex }
+                  format: { with: PHONE_REGEX }
 
   has_attached_file :avatar, styles: { medium: "200x200>", thumb: "70x70>" }, default_url: "http://grdevday.org/wp-content/uploads/2016/02/missing.png"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/

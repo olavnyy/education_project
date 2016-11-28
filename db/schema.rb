@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161126144218) do
+
+ActiveRecord::Schema.define(version: 20161123153452) do
 
   create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
@@ -80,7 +81,10 @@ ActiveRecord::Schema.define(version: 20161126144218) do
     t.datetime "updated_at",                    null: false
     t.integer  "student_id"
     t.integer  "daily_report_id"
+    t.date     "day"
+    t.integer  "group_id"
     t.index ["daily_report_id"], name: "index_my_days_on_daily_report_id", using: :btree
+    t.index ["group_id"], name: "index_my_days_on_group_id", using: :btree
     t.index ["student_id"], name: "index_my_days_on_student_id", using: :btree
   end
 
@@ -106,6 +110,7 @@ ActiveRecord::Schema.define(version: 20161126144218) do
     t.datetime "updated_at",                    null: false
     t.integer  "group_id"
     t.integer  "daily_report_id"
+    t.date     "day"
     t.index ["daily_report_id"], name: "index_our_days_on_daily_report_id", using: :btree
     t.index ["group_id"], name: "index_our_days_on_group_id", using: :btree
   end
@@ -125,7 +130,11 @@ ActiveRecord::Schema.define(version: 20161126144218) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.integer  "my_day_id"
+    t.integer  "our_day_id"
     t.index ["album_id"], name: "index_photos_on_album_id", using: :btree
+    t.index ["my_day_id"], name: "index_photos_on_my_day_id", using: :btree
+    t.index ["our_day_id"], name: "index_photos_on_our_day_id", using: :btree
   end
 
   create_table "report_times", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -215,11 +224,14 @@ ActiveRecord::Schema.define(version: 20161126144218) do
   add_foreign_key "groups", "schools"
   add_foreign_key "levels", "schools"
   add_foreign_key "my_days", "daily_reports"
+  add_foreign_key "my_days", "groups"
   add_foreign_key "my_days", "students"
   add_foreign_key "news", "users"
   add_foreign_key "our_days", "daily_reports"
   add_foreign_key "our_days", "groups"
   add_foreign_key "photos", "albums"
+  add_foreign_key "photos", "my_days"
+  add_foreign_key "photos", "our_days"
   add_foreign_key "students", "groups"
   add_foreign_key "students", "schools"
   add_foreign_key "users", "groups"
